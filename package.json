@@ -8,9 +8,14 @@
     "preinstall": "pnpm dlx only-allow pnpm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "workspaces": ["projects/*"], 
+  "workspaces": [
+    "packages/*"
+  ],
   "packageManager": "pnpm@8.8.0",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
