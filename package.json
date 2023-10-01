@@ -1,0 +1,16 @@
+{
+  "name": "project--hydrogen-charging-station--nextjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "preinstall": "pnpm dlx only-allow pnpm",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": ["packages/*"], 
+  "packageManager": "pnpm@8.8.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
