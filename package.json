@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "packageManager": "pnpm@8.8.0",
   "keywords": [],
@@ -19,6 +20,7 @@
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.22.20",
+    "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
   }
 }
