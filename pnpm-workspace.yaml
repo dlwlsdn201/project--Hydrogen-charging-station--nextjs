@@ -1,3 +1,0 @@
-packages:
-  - "packages/*" # 공통 사용 목적
-  - "apps/*" # 서비스별
