@@ -3,6 +3,19 @@ const isProduction = process.env.NODE_ENV === "production";
 const TerserPlugin = require("terser-webpack-plugin");
 const nextConfig = {
   webpack: (config) => {
+    config.module.rules.push({
+      test: /\.tsx?$/,
+      use: [
+        {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+          },
+        },
+      ],
+      exclude: "/node_modules/",
+    });
+
     // 기존 대비 약 50% bundle file size 감소 효과
     config.optimization = {
       ...config.optimization,
