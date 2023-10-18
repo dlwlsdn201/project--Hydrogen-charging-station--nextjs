@@ -13,6 +13,10 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
         ticks: {
           font: { size: 18 },
         },
+        stacked: true,
+      },
+      y: {
+        stacked: true,
       },
     },
     plugins: {
@@ -39,7 +43,6 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
       loop: false,
     },
   };
-
   return <Bar options={options} data={data} />;
 };
 
