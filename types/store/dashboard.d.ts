@@ -7,9 +7,13 @@ interface IPayloadRegStatus {
   화물: number;
   총합계: number;
 }
+
+interface IChartDataObj {
+  [key: string]: IPayloadPriceStatus | IPayloadRegStatus;
+}
 interface IRegStatus {
   totalCount: number;
-  data: IPayloadRegStatus[];
+  data: IChartDataObj[];
 }
 
 // 월별평균 수소충전소 월간 판매 가격 현황
@@ -41,7 +45,7 @@ interface IPriceStatus {
 
 interface IChartDataState {
   totalCount: number;
-  data: IPayloadRegStatus[] | IPayloadPriceStatus;
+  data: IPayloadRegStatus[] | IPayloadPriceStatus[];
 }
 
 export declare interface IDashboardState {
