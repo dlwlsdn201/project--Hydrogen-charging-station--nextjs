@@ -23,7 +23,7 @@ let totalData = {
   price: [],
 };
 
-const regStatusKeys: string[] = ['지역', '승용', '승합', '화물', '총합계'];
+const regStatusKeys: string[] = ['승용', '승합', '화물'];
 
 regStatusKeys.forEach((key) => {
   let dataSetObj: IDatasetKeys = {
@@ -32,6 +32,7 @@ regStatusKeys.forEach((key) => {
     backgroundColor: '#fff',
     stack: 'Stack 0',
   };
+
   dataSetObj['label'] = key;
   dataSetObj['data'] = labels.reg.map(() => faker.number.int({ min: 0, max: 1000 }));
   dataSetObj['backgroundColor'] = faker.color.rgb({ casing: 'mixed', format: 'hex' });
@@ -39,9 +40,10 @@ regStatusKeys.forEach((key) => {
   if (key !== '지역' && key !== '총합계') {
     // dataset 정의
     dataSetObj['stack'] = 'Stack 0';
-  } else if (key === '총합계') {
-    dataSetObj['stack'] = 'Stack 1';
   }
+  // else if (key === '총합계') {
+  //   dataSetObj['stack'] = 'Stack 1';
+  // }
 
   dataset.reg.push(dataSetObj);
 });
@@ -52,20 +54,20 @@ export const data = {
     datasets: dataset.reg,
   },
   price: {
-    labels: labels.price,
+    labels: labels.reg,
     datasets: [
       {
-        label: 'Dataset 1',
+        label: '수소 판매 가격',
         // data: 2,
-        data: labels.price.map(() => faker.number.int({ min: 0, max: 1000 })),
+        data: labels.reg.map(() => faker.number.int({ min: 6000, max: 12000 })),
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
-      {
-        label: 'Dataset 2',
-        // data: 2,
-        data: labels.price.map(() => faker.number.int({ min: 0, max: 1000 })),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
+      // {
+      //   label: 'Dataset 2',
+      //   // data: 2,
+      //   data: labels.price.map(() => faker.number.int({ min: 0, max: 1000 })),
+      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      // },
     ],
   },
 };
