@@ -1,3 +1,5 @@
+'use client';
+
 import { InnerContainer } from '@app/components/Modules/StyleComponents';
 import React, { ReactElement, ReactNode } from 'react';
 
