@@ -1,11 +1,7 @@
-'use client';
 import { faker } from '@faker-js/faker';
-
-import { NextUIProvider } from '@nextui-org/react';
-import Dashboard from './dashboard/main';
-import { useDashboardStore } from '@app/store/dashboard';
-import { useEffect } from 'react';
 import { IDatasetKeys } from '@app/types/dashboard/chart';
+import { BASE_URL } from '@app/static/api';
+import Dashboard from './dashboard/main';
 
 const labels = {
   price: ['23년1월', '23년2월', '23년3월', '23년4월', '23년5월', '23년6월', '23년7월', '23년8월'],
@@ -71,19 +67,14 @@ export const data = {
     ],
   },
 };
-export default function DashboardPage() {
-  const { regStatus, changeRegStatus }: any = useDashboardStore((state: ReturnType<any>) => state);
-  useEffect(() => {
-    changeRegStatus({
-      totalCount: 1,
-      data: [],
-    });
-    console.log({ regStatus });
-  }, []);
 
-  return (
-    <NextUIProvider style={{ width: '100%' }}>
-      <Dashboard chartData={data} />
-    </NextUIProvider>
-  );
+const getRegStatusData = async () => {
+  const regResponse = await fetch(`${BASE_URL}/15117132/v1/uddi:29120ccb-cd91-4436-b5b7-ecdac6d5dc35`);
+
+  // console.log({ regResponse });
+  return regResponse;
+};
+
+export default async function DashboardPage() {
+  return <Dashboard chartData={data} />;
 }

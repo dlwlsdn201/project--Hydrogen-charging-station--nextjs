@@ -1,4 +1,4 @@
-import React from 'react';
+'use client';
 import DashboardLayout from './layout';
 import { TChartData } from '@app/types/charts';
 import ChartRegStatus from './Charts/regStatus';

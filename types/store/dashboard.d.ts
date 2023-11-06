@@ -1,6 +1,6 @@
 /** 지역별 수소차 등록 현황 */
 
-interface IPayloadRegStatus {
+export interface IPayloadRegStatus {
   지역: string;
   승용: number;
   승합: number;
