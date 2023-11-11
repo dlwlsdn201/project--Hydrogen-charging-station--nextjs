@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { IDatasetKeys } from '@app/types/dashboard/chart';
-import { BASE_URL } from '@app/static/api';
 import Dashboard from './dashboard/main';
+import { READ_REG_STATUS_DATA } from './api/dashboard';
+import { IDatasetKeys, IRegDataObj, TChartDataKey } from '@app/types/dashboard/chart';
 
 const labels = {
   price: ['23년1월', '23년2월', '23년3월', '23년4월', '23년5월', '23년6월', '23년7월', '23년8월'],
@@ -14,41 +14,11 @@ const dataset: { [key: string]: Array<{ label: string; data: number[]; backgroun
   price: [],
 };
 
-let totalData = {
-  reg: [],
-  price: [],
-};
-
-const regStatusKeys: string[] = ['승용', '승합', '화물'];
-
-regStatusKeys.forEach((key) => {
-  let dataSetObj: IDatasetKeys = {
-    label: '',
-    data: [],
-    backgroundColor: '#fff',
-    stack: 'Stack 0',
-  };
-
-  dataSetObj['label'] = key;
-  dataSetObj['data'] = labels.reg.map(() => faker.number.int({ min: 0, max: 1000 }));
-  dataSetObj['backgroundColor'] = faker.color.rgb({ casing: 'mixed', format: 'hex' });
-
-  if (key !== '지역' && key !== '총합계') {
-    // dataset 정의
-    dataSetObj['stack'] = 'Stack 0';
-  }
-  // else if (key === '총합계') {
-  //   dataSetObj['stack'] = 'Stack 1';
-  // }
-
-  dataset.reg.push(dataSetObj);
-});
-
 export const data = {
-  reg: {
-    labels: labels.reg,
-    datasets: dataset.reg,
-  },
+  // reg: {
+  //   labels: labels.reg,
+  //   datasets: dataset.reg,
+  // },
   price: {
     labels: labels.reg,
     datasets: [
@@ -68,13 +38,74 @@ export const data = {
   },
 };
 
-const getRegStatusData = async () => {
-  const regResponse = await fetch(`${BASE_URL}/15117132/v1/uddi:29120ccb-cd91-4436-b5b7-ecdac6d5dc35`);
+const initRegStatusData = async () => {
+  const regResponse = await READ_REG_STATUS_DATA();
+  let data;
+  if (regResponse.ok) {
+    data = await regResponse.json();
+  } else throw new Error('수소차 등록 현황 API 호출 실패');
 
-  // console.log({ regResponse });
-  return regResponse;
+  return data;
 };
 
 export default async function DashboardPage() {
-  return <Dashboard chartData={data} />;
+  const result: { currentCount: number; data: IRegDataObj[] } = await initRegStatusData();
+  const isVaildData: boolean = result?.data && result.data.length > 0;
+
+  // ==================================== 국내 수소차 등록 현황 차트 데이터 관리
+  // 지역 Labels
+  const regLabels = result.data && result.data.map((obj: IRegDataObj) => obj.지역);
+  // '승용' | '승합' | '화물' 에 대한 legend 배열 만들어야함.
+  const sampleData: IRegDataObj | false = isVaildData && result.data[0];
+  const regLegends: any[] = isVaildData
+    ? Object.keys(sampleData).filter((key) => !['지역', '총합계'].includes(key))
+    : [];
+
+  const regDatasets = regLegends.map((legend: TChartDataKey) => ({
+    label: legend,
+    data: [],
+    backgroundColor: faker.color.rgb({ casing: 'mixed', format: 'hex' }),
+    stack: `Stack 0`,
+  }));
+
+  // ==================  지역별 ['승용', '승합', '화물'] 키 값에 대한 데이터 값 할당
+  const regChartData: Record<string, any> = {};
+  regLegends.forEach((legend: TChartDataKey) => {
+    regChartData[legend] = [];
+  });
+
+  result.data.forEach((obj: IRegDataObj) => {
+    regLegends.forEach((legend: TChartDataKey) => {
+      regChartData[legend].push(obj[legend]);
+    });
+  });
+
+  regDatasets.forEach((dataSet) => {
+    const target = dataSet.label;
+
+    dataSet.data = regChartData[target];
+  });
+
+  // ==================
+
+  // ====================================
+
+  const chartData = {
+    reg: {
+      labels: regLabels,
+      datasets: regDatasets,
+    },
+    price: {
+      labels: labels.reg,
+      datasets: [
+        {
+          label: '수소 판매 가격',
+          // data: 2,
+          data: labels.price.map(() => faker.number.int({ min: 6000, max: 12000 })),
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        },
+      ],
+    },
+  };
+  return <Dashboard chartData={chartData} />;
 }
