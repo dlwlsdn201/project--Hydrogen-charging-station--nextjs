@@ -8,6 +8,10 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
   const options: TOptions = {
     // type: 'bar',
     responsive: true,
+    interaction: {
+      intersect: false,
+      mode: 'index',
+    },
     scales: {
       x: {
         ticks: {
