@@ -39,7 +39,10 @@ export const data = {
 };
 
 const initRegStatusData = async () => {
-  const regResponse = await READ_REG_STATUS_DATA();
+  const regResponse = await READ_REG_STATUS_DATA({
+    perPage: 10,
+    page: 1,
+  });
   let data;
   if (regResponse.ok) {
     data = await regResponse.json();
