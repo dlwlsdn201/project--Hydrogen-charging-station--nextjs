@@ -8,7 +8,7 @@ export const RootContainer = styled.div`
   justify-content: center;
   flex-flow: column nowrap;
   height: 100%;
-  padding: 16px 32px;
+  padding: 1rem 6rem;
 `;
 
 export const InnerContainer = styled.div`
@@ -17,5 +17,5 @@ export const InnerContainer = styled.div`
   justify-content: space-around;
   flex-flow: column wrap;
   /* height: 100%; */
-  width: 50%;
+  width: 100%;
 `;
