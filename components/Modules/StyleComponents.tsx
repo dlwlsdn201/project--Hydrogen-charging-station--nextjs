@@ -16,6 +16,7 @@ export const InnerContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   flex-flow: column wrap;
+  gap: 4rem;
   /* height: 100%; */
   width: 50%;
 `;

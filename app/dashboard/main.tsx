@@ -15,7 +15,7 @@ const Dashboard = ({ chartData }: IProps) => {
   return (
     <DashboardLayout>
       <ChartRegStatus chartData={chartData?.reg} />
-      <Divider className="my-12 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
+      <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
       <ChartPriceStatus chartData={chartData?.price} />
     </DashboardLayout>
   );
