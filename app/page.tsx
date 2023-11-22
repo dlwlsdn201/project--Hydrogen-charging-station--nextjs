@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import Dashboard from './dashboard/main';
-import { READ_REG_STATUS_DATA } from './api/dashboard';
-import { IDatasetKeys, IRegDataObj, TChartDataKey } from '@app/types/dashboard/chart';
+import { READ_PRICE_STATUS_DATA, READ_REG_STATUS_DATA } from './api/dashboard';
+import { IPriceDataObj, IRegDataObj, TChartDataKey } from '@app/types/dashboard/chart';
 
 const labels = {
   price: ['23년1월', '23년2월', '23년3월', '23년4월', '23년5월', '23년6월', '23년7월', '23년8월'],
@@ -38,28 +38,66 @@ export const data = {
   },
 };
 
-const initRegStatusData = async () => {
-  const regResponse = await READ_REG_STATUS_DATA({
-    perPage: 10,
-    page: 1,
-  });
-  let data;
-  if (regResponse.ok) {
-    data = await regResponse.json();
-  } else throw new Error('수소차 등록 현황 API 호출 실패');
+const filterNotRegion = (dataKeys: string[]) => dataKeys.filter((key) => key !== '구분');
+const sortObjectByKeys = (obj: IRegDataObj[] | IPriceDataObj[]) => Object.keys(obj).sort();
 
-  return data;
+const getPriceLabel = (resData: IRegDataObj[] | IPriceDataObj[]): string[] => {
+  let result: string[] = [];
+  if (resData && resData.length > 0) {
+    result = sortObjectByKeys(resData);
+  }
+  return result;
 };
 
 export default async function DashboardPage() {
-  const result: { currentCount: number; data: IRegDataObj[] } = await initRegStatusData();
-  const isVaildData: boolean = result?.data && result.data.length > 0;
+  const initRegStatusData = async (): Promise<any> => {
+    const regResponse = await READ_REG_STATUS_DATA({ perPage: 10, page: 1 });
+    let data;
+    if (regResponse.ok) {
+      data = await regResponse.json();
+    } else throw new Error('수소차 등록 현황 API 호출 실패');
+
+    return data;
+  };
+
+  const initPriceStatusData = async (): Promise<any> => {
+    const regResponse = await READ_PRICE_STATUS_DATA({ perPage: 10, page: 1 });
+    let data;
+    if (regResponse.ok) {
+      data = await regResponse.json();
+    } else throw new Error('수소차 등록 현황 API 호출 실패');
+
+    return data;
+  };
+
+  const apiResponse: {
+    reg: {
+      currentCount: number;
+      data: Array<any>;
+      matchCount: number;
+      page: number;
+      perPage: number;
+      totalCount: number;
+    };
+    price: {
+      currentCount: number;
+      data: Array<any>;
+      matchCount: number;
+      page: number;
+      perPage: number;
+      totalCount: number;
+    };
+  } = {
+    reg: await initRegStatusData(),
+    price: await initPriceStatusData(),
+  };
+  const isVaildData: boolean = apiResponse.reg?.data && apiResponse.reg.data.length > 0;
 
   // ==================================== 국내 수소차 등록 현황 차트 데이터 관리
   // 지역 Labels
-  const regLabels = result.data && result.data.map((obj: IRegDataObj) => obj.지역);
+  const regLabels = apiResponse.reg.data && apiResponse.reg.data.map((obj: IRegDataObj) => obj.지역);
   // '승용' | '승합' | '화물' 에 대한 legend 배열 만들어야함.
-  const sampleData: IRegDataObj | false = isVaildData && result.data[0];
+  const sampleData: IRegDataObj | false = isVaildData && apiResponse.reg.data[0];
   const regLegends: any[] = isVaildData
     ? Object.keys(sampleData).filter((key) => !['지역', '총합계'].includes(key))
     : [];
@@ -77,7 +115,7 @@ export default async function DashboardPage() {
     regChartData[legend] = [];
   });
 
-  result.data.forEach((obj: IRegDataObj) => {
+  apiResponse.reg.data.forEach((obj: IRegDataObj) => {
     regLegends.forEach((legend: TChartDataKey) => {
       regChartData[legend].push(obj[legend]);
     });
@@ -93,16 +131,19 @@ export default async function DashboardPage() {
 
   // ====================================
 
+  // ==================================== 국내 지역별 수소 판매 가격 데이터 관리
+  console.log({ apiResponse, label: getPriceLabel(apiResponse.price?.data), test: apiResponse.price.data });
+
   const chartData = {
     reg: {
       labels: regLabels,
       datasets: regDatasets,
     },
     price: {
-      labels: labels.reg,
+      labels: getPriceLabel(apiResponse.price?.data),
       datasets: [
         {
-          label: '수소 판매 가격',
+          label: '수소 판매 가격 (원)',
           // data: 2,
           data: labels.price.map(() => faker.number.int({ min: 6000, max: 12000 })),
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -110,5 +151,5 @@ export default async function DashboardPage() {
       ],
     },
   };
-  return <Dashboard chartData={chartData} />;
+  return <Dashboard chartData={chartData} apiResponse={apiResponse} />;
 }

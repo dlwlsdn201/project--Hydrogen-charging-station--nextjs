@@ -41,3 +41,15 @@ export const READ_PRICE_STATUS_DATA = async ({ perPage, page }: { perPage: numbe
 
   return res;
 };
+
+export const READ_PRICE_STATUS_DATA = async () => {
+  const res = await fetch(
+    `${BASE_URL}/15102821/v1/uddi:01321751-4687-45d3-abd3-d1579597642b?page=1&perPage=100s&serviceKey=${apiKey}&_type=json`,
+    {
+      method: 'GET',
+      // mode: 'cors',
+      // next: { revalidate: 10 },
+    },
+  );
+  return res;
+};

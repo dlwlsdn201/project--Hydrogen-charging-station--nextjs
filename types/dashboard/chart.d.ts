@@ -10,6 +10,11 @@ export interface IRegDataObj {
   지역?: TRegRegionLabels;
 }
 
+export interface IPriceDataObj {
+  구분: string;
+  [key: string]: number;
+}
+
 export interface IDatasetKeys {
   label: string;
   data: number[];
