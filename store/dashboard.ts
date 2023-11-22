@@ -3,10 +3,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type {} from 'redux-devtools-extension';
 
-export const useDashboardStore: UseBoundStore<StoreApi<unknown>> = create<
-  IDashboardState,
-  [['zustand/devtools', IDashboardState]]
->(
+export const useDashboardStore: UseBoundStore<StoreApi<unknown>> = create<any, [['zustand/devtools', IDashboardState]]>(
   devtools((set) => ({
     regStatus: {
       totalCount: 0,
@@ -19,7 +16,7 @@ export const useDashboardStore: UseBoundStore<StoreApi<unknown>> = create<
       data: [],
     },
     changePriceStatus: (payload: IPriceStatus) =>
-      set({ regStatus: { totalCount: payload.totalCount, data: payload.data } }),
+      set({ priceStatus: { totalCount: payload.totalCount, data: payload.data } }),
   })),
 );
 
