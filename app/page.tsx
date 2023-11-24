@@ -9,34 +9,34 @@ const labels = {
 };
 
 // ====== SAMPLE ======
-const dataset: { [key: string]: Array<{ label: string; data: number[]; backgroundColor: string }> } = {
-  reg: [],
-  price: [],
-};
+// const dataset: { [key: string]: Array<{ label: string; data: number[]; backgroundColor: string }> } = {
+//   reg: [],
+//   price: [],
+// };
 
-export const data = {
-  // reg: {
-  //   labels: labels.reg,
-  //   datasets: dataset.reg,
-  // },
-  price: {
-    labels: labels.reg,
-    datasets: [
-      {
-        label: '수소 판매 가격',
-        // data: 2,
-        data: labels.reg.map(() => faker.number.int({ min: 6000, max: 12000 })),
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      // {
-      //   label: 'Dataset 2',
-      //   // data: 2,
-      //   data: labels.price.map(() => faker.number.int({ min: 0, max: 1000 })),
-      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      // },
-    ],
-  },
-};
+// export const data = {
+//   // reg: {
+//   //   labels: labels.reg,
+//   //   datasets: dataset.reg,
+//   // },
+//   price: {
+//     labels: labels.reg,
+//     datasets: [
+//       {
+//         label: '수소 판매 가격',
+//         // data: 2,
+//         data: labels.reg.map(() => faker.number.int({ min: 6000, max: 12000 })),
+//         backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//       },
+//       // {
+//       //   label: 'Dataset 2',
+//       //   // data: 2,
+//       //   data: labels.price.map(() => faker.number.int({ min: 0, max: 1000 })),
+//       //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
+//       // },
+//     ],
+//   },
+// };
 
 const filterNotRegion = (dataKeys: string[]) => dataKeys.filter((key) => key !== '구분');
 const sortObjectByKeys = (obj: IRegDataObj[] | IPriceDataObj[]) => Object.keys(obj).sort();
@@ -51,21 +51,32 @@ const getPriceLabel = (resData: IRegDataObj[] | IPriceDataObj[]): string[] => {
 
 export default async function DashboardPage() {
   const initRegStatusData = async (): Promise<any> => {
-    const regResponse = await READ_REG_STATUS_DATA({ perPage: 10, page: 1 });
     let data;
-    if (regResponse.ok) {
-      data = await regResponse.json();
-    } else throw new Error('수소차 등록 현황 API 호출 실패');
+    try {
+      const regResponse = await READ_REG_STATUS_DATA({ perPage: 10, page: 1 });
+
+      if (regResponse.ok) {
+        data = await regResponse.json();
+        // console.log('status: ', data);
+      } else throw Error();
+    } catch (error) {
+      console.log('Error:', error);
+    }
 
     return data;
   };
 
   const initPriceStatusData = async (): Promise<any> => {
-    const regResponse = await READ_PRICE_STATUS_DATA({ perPage: 10, page: 1 });
     let data;
-    if (regResponse.ok) {
-      data = await regResponse.json();
-    } else throw new Error('수소차 등록 현황 API 호출 실패');
+    try {
+      const priceResponse = await READ_PRICE_STATUS_DATA({ perPage: 99, page: 1 });
+      if (priceResponse.ok) {
+        data = await priceResponse.json();
+        // console.log('price: ', data);
+      } else throw Error();
+    } catch (error) {
+      console.log('Error:', error);
+    }
 
     return data;
   };
@@ -89,6 +100,7 @@ export default async function DashboardPage() {
     };
   } = {
     reg: await initRegStatusData(),
+    // reg:
     price: await initPriceStatusData(),
   };
   const isVaildData: boolean = apiResponse.reg?.data && apiResponse.reg.data.length > 0;
@@ -115,7 +127,7 @@ export default async function DashboardPage() {
     regChartData[legend] = [];
   });
 
-  apiResponse.reg.data.forEach((obj: IRegDataObj) => {
+  apiResponse?.reg?.data.forEach((obj: IRegDataObj) => {
     regLegends.forEach((legend: TChartDataKey) => {
       regChartData[legend].push(obj[legend]);
     });
@@ -129,10 +141,7 @@ export default async function DashboardPage() {
 
   // ==================
 
-  // ====================================
-
   // ==================================== 국내 지역별 수소 판매 가격 데이터 관리
-  console.log({ apiResponse, label: getPriceLabel(apiResponse.price?.data), test: apiResponse.price.data });
 
   const chartData = {
     reg: {

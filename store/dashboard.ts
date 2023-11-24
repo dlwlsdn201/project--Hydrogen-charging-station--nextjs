@@ -3,7 +3,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type {} from 'redux-devtools-extension';
 
-export const useDashboardStore: UseBoundStore<StoreApi<unknown>> = create<any, [['zustand/devtools', IDashboardState]]>(
+export const useDashboardStore: UseBoundStore<StoreApi<any>> = create<any, [['zustand/devtools', IDashboardState]]>(
   devtools((set) => ({
     regStatus: {
       totalCount: 0,
