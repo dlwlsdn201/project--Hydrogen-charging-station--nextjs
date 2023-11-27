@@ -8,15 +8,15 @@ export const RootContainer = styled.div`
   justify-content: center;
   flex-flow: column nowrap;
   height: 100%;
-  padding: 1rem 6rem;
+  padding: 2rem 4rem;
 `;
 
 export const InnerContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   gap: 4rem;
-  /* height: 100%; */
+  height: 100%;
   width: 100%;
 `;

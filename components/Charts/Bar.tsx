@@ -7,9 +7,20 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
   const options: TOptions = {
     // type: 'bar',
-    responsive: true,
+    // responsive: true,
+    // maintainAspectRatio: true,
+    elements: {
+      bar: {
+        borderWidth: 1,
+        inflateAmount: 0,
+      },
+    },
+    layout: {
+      // padding: 4,
+      autoPadding: true,
+    },
     interaction: {
-      intersect: false,
+      intersect: true,
       mode: 'index',
     },
     scales: {
@@ -21,6 +32,16 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
       },
       y: {
         stacked: true,
+        suggestedMin: 50,
+        suggestedMax: 10000,
+        grid: {
+          display: true,
+        },
+        ticks: {
+          major: {
+            enabled: true,
+          },
+        },
       },
     },
     plugins: {
@@ -28,16 +49,16 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
         position: 'top' as const,
         labels: {
           font: {
-            size: 18,
+            size: 14,
           },
         },
       },
       title: {
         display: true,
         text: title,
-        fullSize: true,
+        // fullSize: true,
         font: {
-          size: 24,
+          size: 20,
         },
       },
     },
@@ -47,7 +68,11 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
       loop: false,
     },
   };
-  return <Bar options={options} data={data} />;
+  return (
+    <div className="flex flex-[0.8] h-min">
+      <Bar options={options} data={data} />
+    </div>
+  );
 };
 
 export default ModuleBar;
