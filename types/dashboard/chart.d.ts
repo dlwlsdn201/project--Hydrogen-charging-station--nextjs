@@ -10,6 +10,29 @@ export interface IRegDataObj {
   지역?: TRegRegionLabels;
 }
 
+// --- 국내 수소 판매 가격 ---
+
+export interface IPriceData {
+  강원: number;
+  경기: number;
+  경남: number;
+  경북: number;
+  광주: number;
+  구분: string;
+  대구: number;
+  대전: number;
+  부산: number;
+  서울: number;
+  세종: number;
+  울산: number;
+  인천: number;
+  전국: number;
+  전남: number;
+  전북: number;
+  충남: number;
+  충북: number;
+}
+
 export interface IPriceDataObj {
   구분: string;
   [key: string]: number;
