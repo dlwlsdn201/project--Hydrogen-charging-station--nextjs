@@ -46,6 +46,7 @@ interface IPriceStatus {
 interface IChartDataState {
   totalCount: number;
   data: IPayloadRegStatus[] | IPayloadPriceStatus[];
+  datePicker: any;
 }
 
 export declare interface IDashboardState {
