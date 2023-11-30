@@ -15,7 +15,7 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
     scales: {
       x: {
         ticks: {
-          font: { size: 18 },
+          font: { size: 16 },
         },
         stacked: true,
       },

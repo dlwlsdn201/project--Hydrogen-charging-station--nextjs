@@ -23,6 +23,9 @@ dependencies:
   framer-motion:
     specifier: ^10.16.4
     version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
+  immer:
+    specifier: ^10.0.3
+    version: 10.0.3
   next:
     specifier: 13.5.4
     version: 13.5.4(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
@@ -46,7 +49,7 @@ dependencies:
     version: 6.0.8(react-dom@18.2.0)(react@18.2.0)
   zustand:
     specifier: ^4.4.3
-    version: 4.4.3(@types/react@18.2.28)(react@18.2.0)
+    version: 4.4.3(@types/react@18.2.28)(immer@10.0.3)(react@18.2.0)
 
 devDependencies:
   '@babel/plugin-syntax-dynamic-import':
@@ -5131,6 +5134,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.3:
+    resolution: {integrity: sha512-pwupu3eWfouuaowscykeckFmVTpqbzW+rXFCX8rQLkZzM9ftBmU/++Ra+o+L27mz03zJTlyV4UUr+fdKNffo4A==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -6872,7 +6879,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zustand@4.4.3(@types/react@18.2.28)(react@18.2.0):
+  /zustand@4.4.3(@types/react@18.2.28)(immer@10.0.3)(react@18.2.0):
     resolution: {integrity: sha512-oRy+X3ZazZvLfmv6viIaQmtLOMeij1noakIsK/Y47PWYhT8glfXzQ4j0YcP5i0P0qI1A4rIB//SGROGyZhx91A==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -6888,6 +6895,7 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.28
+      immer: 10.0.3
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
