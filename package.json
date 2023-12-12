@@ -13,6 +13,7 @@
     "@nextui-org/react": "^2.1.13",
     "@types/styled-components": "^5.1.28",
     "chart.js": "^4.4.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.4",
     "immer": "^10.0.3",

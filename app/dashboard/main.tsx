@@ -95,7 +95,6 @@ const Dashboard = ({ apiResponse }: IProps) => {
     () => priceStatus?.datePicker && Array.from(priceStatus?.datePicker)[0],
     [priceStatus?.datePicker],
   );
-  console.log({ selectedDate });
   const getDataByDatePicker = ({ dateList, date }: { dateList: IPriceDataObj[]; date: string }) =>
     dateList.find((obj: IPriceDataObj) => obj['구분'] === date);
   let priceDataObj: IPriceDataObj | undefined = getDataByDatePicker({
@@ -103,17 +102,19 @@ const Dashboard = ({ apiResponse }: IProps) => {
     date: selectedDate,
   });
 
-  const priceData: any = {};
+  const priceData: any = [];
   if (priceDataObj !== undefined) {
     const priceChartDataKeys = Object.keys(priceDataObj).filter((key) => key !== '구분');
     priceChartDataKeys.forEach((key) => {
-      if (priceDataObj) priceData[key] = priceDataObj[key];
+      if (priceDataObj) priceData.push(priceDataObj[key]);
+      // if (priceDataObj) priceData[key] = priceDataObj[key];
     });
   }
 
   const priceDatasets = priceLegends.map((legend: TPriceChartDataKey) => ({
     label: legend,
     data: priceData,
+    datalabels: { color: '#FFCE56' },
     backgroundColor: faker.color.rgb({ casing: 'mixed', format: 'hex' }),
     stack: `Stack 0`,
   }));
