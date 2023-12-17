@@ -1,12 +1,9 @@
 'use client';
-import DashboardLayout from './layout';
-import { TChartData } from '@app/types/charts';
-import { Divider, Spinner } from '@nextui-org/react';
+import { Divider } from '@nextui-org/react';
 import ChartRegStatus from './RegStatus/Chart';
 import ChartPriceStatus from './PriceStatus/Chart';
 import { useDashboardStore } from '@app/store/dashboard';
 import { useEffect, useMemo } from 'react';
-import { IDashboardState } from '@app/types/store/dashboard';
 import { IPriceDataObj, IRegDataObj, TPriceChartDataKey, TRegChartDataKey } from '@app/types/dashboard/chart';
 import { faker } from '@faker-js/faker';
 
@@ -39,7 +36,6 @@ const getLabel = (resData: IRegDataObj[] | IPriceDataObj[]): string[] => {
   if (resData && resData.length > 0) {
     const sortedKeys = sortObjectByKeys(resData[0]);
     result = filterPriceLabel(sortedKeys);
-    console.log({ resData, result, sortedKeys });
   }
   return result;
 };
@@ -58,10 +54,12 @@ const Dashboard = ({ apiResponse }: IProps) => {
     ? Object.keys(regStandardObj).filter((key) => !['지역', '총합계'].includes(key))
     : [];
 
-  const regDatasets = regLegends.map((legend: TRegChartDataKey) => ({
+  const backgroundColors = ['rgb(142, 98, 231)', '#6fb26c', '#f0b44b'];
+
+  const regDatasets = regLegends.map((legend: TRegChartDataKey, index: number) => ({
     label: legend,
     data: [],
-    backgroundColor: faker.color.rgb({ casing: 'mixed', format: 'hex' }),
+    backgroundColor: backgroundColors[index],
     stack: `Stack 0`,
   }));
 
@@ -87,8 +85,8 @@ const Dashboard = ({ apiResponse }: IProps) => {
   // ========================================================================
 
   // ==================================== 국내 지역별 수소 판매 가격 데이터 관리
-  const priceStandardObj: IPriceDataObj | false = isVaildData && apiResponse.price.data[0];
-  const priceLegends: TPriceChartDataKey[] = ['가격'];
+  // const priceStandardObj: IPriceDataObj | false = isVaildData && apiResponse.price.data[0];
+  const priceLegends: TPriceChartDataKey[] = ['가격 (원)'];
   const priceLabels = getLabel(apiResponse.price?.data);
 
   const selectedDate = useMemo(
@@ -114,8 +112,9 @@ const Dashboard = ({ apiResponse }: IProps) => {
   const priceDatasets = priceLegends.map((legend: TPriceChartDataKey) => ({
     label: legend,
     data: priceData,
-    datalabels: { color: '#FFCE56' },
-    backgroundColor: faker.color.rgb({ casing: 'mixed', format: 'hex' }),
+    // datalabels: { color: 'rgb(86, 168, 255)' },
+    // backgroundColor: faker.color.rgb({ casing: 'mixed', format: 'hex' }),
+    backgroundColor: 'rgb(86, 168, 255)',
     stack: `Stack 0`,
   }));
 

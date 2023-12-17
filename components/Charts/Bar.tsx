@@ -64,6 +64,10 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
           size: 20,
         },
       },
+      datalabels: {
+        // 차트 그래프 값을 text label 로 출력
+        color: '#FFF',
+      },
     },
     animation: {
       duration: 1500,
