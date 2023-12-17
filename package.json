@@ -15,6 +15,7 @@
     "chart.js": "^4.4.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.3.1",
     "framer-motion": "^10.16.4",
     "immer": "^10.0.3",
     "next": "13.5.4",
@@ -22,6 +23,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-kakao-maps-sdk": "^1.1.24",
     "redux-devtools-extension": "^2.13.9",
     "styled-components": "^6.0.8",
     "zustand": "^4.4.3"
