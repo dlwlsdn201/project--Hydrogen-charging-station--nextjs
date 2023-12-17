@@ -61,7 +61,7 @@ export default async function DashboardPage() {
       const priceResponse = await READ_PRICE_STATUS_DATA({ perPage: 99, page: 1 });
       if (priceResponse.ok) {
         data = await priceResponse.json();
-        // console.log('price: ', data);
+        console.log('price: ', data);
       } else throw Error();
     } catch (error) {
       console.log('Error:', error);

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Listbox, ListboxItem } from '@nextui-org/react';
+import React, { useEffect } from 'react';
+import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import { useDashboardStore } from '@app/store/dashboard';
 import { IPriceDataObj } from '@app/types/dashboard/chart';
 
@@ -12,21 +12,30 @@ const Filter = () => {
     priceStatus: { data, datePicker },
     changePriceDatePicker,
   } = useDashboardStore((state) => state);
-  // const selectedValue = useMemo(() => Array.from(selectedKeys).join(', '), [selectedKeys]);
   const dateItems: string[] = data.map((item: IPriceDataObj) => item['구분']);
   const sortedDateItems: string[] = sortDescendingDate(dateItems);
+
+  useEffect(() => {
+    if (!datePicker && sortedDateItems) {
+      const mostRecentDate = sortedDateItems[0];
+      changePriceDatePicker(new Set([mostRecentDate]));
+    }
+  }, [dateItems]);
 
   return (
     <div className="flex-[0.2]">
       <Listbox
         aria-label="Single selection example"
-        className="h-[20rem] overflow-y-scroll"
+        className="h-[24rem] overflow-y-scroll"
         variant="flat"
         disallowEmptySelection
-        // defaultSelectedKeys={['2023-09']}
+        // defaultSelectedKeys={}
         selectionMode="single"
         selectedKeys={datePicker}
-        onSelectionChange={changePriceDatePicker}
+        onSelectionChange={(keys: Selection) => {
+          console.log({ keys });
+          changePriceDatePicker(keys);
+        }}
       >
         {sortedDateItems.map((date: string) => (
           <ListboxItem key={date}>{date}</ListboxItem>
