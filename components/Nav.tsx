@@ -19,8 +19,8 @@ interface IMenu {
 
 const menuItems: IMenu[] = [
   { title: '대시보드', href: '/' },
-  { title: '충전소 현황', href: '/status' },
-  { title: '충전소 검색', href: '/search' },
+  { title: '충전소 현황', href: '/stations' },
+  // { title: '충전소 검색', href: '/search' },
 ];
 
 const RootNav = () => {

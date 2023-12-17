@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,20 +21,10 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@app/*": [
-        "./*"
-      ]
+      "@app/*": ["./*"],
+      "@api/*": ["./app/api/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "app/**/*",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next"
-  ]
+  "include": ["next-env.d.ts", "app/**/*", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next"]
 }
