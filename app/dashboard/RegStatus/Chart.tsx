@@ -9,8 +9,8 @@ interface IProps {
 const ChartRegStatus = (props: IProps) => {
   const { chartData } = props;
   return (
-    <div className="flex w-[100%]" style={{ flex: 0.45 }}>
-      <ModuleBar title="수소 전기차 등록 현황" data={chartData} />
+    <div className="flex w-[100%] flex-[0.45] justify-center">
+      <ModuleBar title="2023.07 수소 전기차 등록 현황" data={chartData} />
     </div>
   );
 };

@@ -14,19 +14,18 @@ const ChartPriceStatus = (props: IProps) => {
     priceStatus: { datePicker },
   } = useDashboardStore((state) => state);
 
-  const [dateTitle, setDateTitle] = useState('월별');
+  const [dateTitle, setDateTitle] = useState<string>('월별');
 
   useEffect(() => {
     if (datePicker) {
       const currentDate: string = datePicker.values().next().value;
-      const test = dayjs(currentDate).format('YYYY.MM');
-      console.log({ test });
-      setDateTitle(test);
+      const formattedDateTitle: string = currentDate ? dayjs(currentDate).format('YYYY.MM') : '월별';
+      setDateTitle(formattedDateTitle);
     }
   }, [datePicker, dateTitle]);
 
   return (
-    <div className=" flex w-[100%] flex-[0.45]">
+    <div className=" flex w-[100%] flex-[0.45] justify-center">
       <ModuleBar title={`${dateTitle} 평균 수소충전소 판매 가격 현황`} data={chartData} />
       <Filter />
     </div>

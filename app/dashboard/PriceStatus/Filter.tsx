@@ -23,7 +23,7 @@ const Filter = () => {
   }, [dateItems]);
 
   return (
-    <div className="flex-[0.2]">
+    <div className="flex-[0.1]">
       <Listbox
         aria-label="Single selection example"
         className="h-[24rem] overflow-y-scroll"

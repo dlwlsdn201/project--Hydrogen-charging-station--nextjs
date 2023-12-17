@@ -130,7 +130,6 @@ const Dashboard = ({ apiResponse }: IProps) => {
   };
 
   useEffect(() => {
-    console.log('여기');
     changePriceStatus({
       ...priceStatus,
       totalCount: apiResponse.price.totalCount,
@@ -140,7 +139,7 @@ const Dashboard = ({ apiResponse }: IProps) => {
   }, [apiResponse, changePriceStatus, changeRegStatus]);
 
   return (
-    <div className="flex flex-col justify-center items-center w-[60%]">
+    <div className="flex flex-col justify-center items-center w-[50vw]">
       {/* <Spinner label="loading..." color="success" /> */}
       <ChartRegStatus chartData={chartData?.reg} />
       <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />

@@ -76,7 +76,7 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
     },
   };
   return (
-    <div className="flex flex-[0.8] h-min">
+    <div className="flex h-min w-[100%]">
       <Bar options={options} data={data} />
     </div>
   );
