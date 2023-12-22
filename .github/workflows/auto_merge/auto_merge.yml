@@ -1,4 +1,3 @@
-
 name: Merge Dev to Main
 
 on:
@@ -21,9 +20,23 @@ jobs:
         run: |
           git config user.name JinWoo_Lee
           git config user.email dlwlsdn201@naver.com
+
+      # feature/* , bugfix/* 브랜치에 push 발생 시, dev 브랜치에 Merge
+      - name: Check if the branch matches pattern
+        run: |
+          BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+          if [[ $BRANCH_NAME == "feature/"* || $BRANCH_NAME == "bugfix/"* ]]; then
+            echo "Branch matches the pattern, proceeding with the merge."
+          else
+            echo "Branch does not match the pattern, skipping the merge."
+            exit 0
+          fi
+
+      # dev push 발생 시, main 브랜치에 Merge
       - name: Merge dev branch
         run: |
           git merge origin/dev --no-edit
+
       - name: Push changes to main branch
         uses: ad-m/github-push-action@master
         with:
