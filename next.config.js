@@ -1,19 +1,22 @@
 /** @type {import('next').NextConfig} */
-const isProduction = process.env.NODE_ENV === "production";
-const TerserPlugin = require("terser-webpack-plugin");
+const isProduction = process.env.NODE_ENV === 'production';
+const TerserPlugin = require('terser-webpack-plugin');
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_KAKAO_MAP_API_KEY: '75b41bbfe71e6763b3e69985a25731bc',
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.tsx?$/,
       use: [
         {
-          loader: "ts-loader",
+          loader: 'ts-loader',
           options: {
             transpileOnly: true,
           },
         },
       ],
-      exclude: "/node_modules/",
+      exclude: '/node_modules/',
     });
 
     // 기존 대비 약 50% bundle file size 감소 효과
