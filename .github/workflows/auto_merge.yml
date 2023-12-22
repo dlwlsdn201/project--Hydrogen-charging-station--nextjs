@@ -1,8 +1,10 @@
-name: Merge Dev to Main
+name: To Merge by automation
 
 on:
   push:
     branches:
+      - feature/*
+      - bugfix/*
       - dev
 
 jobs:
