@@ -1,15 +1,40 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import KakaoMap from './KakaoMap';
-import Search from './Search';
-import TableList from './TableList';
-
+// import Search from './Search';
+// import TableList from './TableList';
+import dynamic from 'next/dynamic';
+const Search = dynamic(() => import('./Search'), { ssr: false });
+const TableList = dynamic(() => import('./TableList'), { ssr: false });
 interface IProps {
   apiResponse: any;
 }
 
+export interface IUserLocation {
+  lat: number;
+  lng: number;
+}
+
 const Stations = (props: IProps) => {
+  const [userLocation, setUserLocation] = useState<IUserLocation>({
+    lat: 35.5549546,
+    lng: 129.2801509,
+  });
+
+  useEffect(() => {
+    if ('geolocation' in navigator) {
+      /* 위치정보 사용 가능 */
+      navigator.geolocation.getCurrentPosition((success) => {
+        const { coords } = success;
+        setUserLocation({ lat: coords?.latitude, lng: coords?.longitude });
+      });
+    } else {
+      alert('사용자의 위치 정보를 불러올 수 없습니다.');
+      /* 위치정보 사용 불가능 */
+    }
+  }, []);
+
   return (
     <div key="1" className="flex flex-col h-full w-full">
       {/* <header className="flex items-center justify-between p-4 bg-white border-b-2">
@@ -19,11 +44,11 @@ const Stations = (props: IProps) => {
         </div>
       </header> */}
       <main className="flex-grow p-4">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 relative h-full">
-            <KakaoMap />
+        <div className="grid grid-cols-3 gap-4 h-full">
+          <div className="col-span-2 relative">
+            <KakaoMap userLocation={userLocation} />
           </div>
-          <aside className="col-span-1 overflow-auto">
+          <aside className="col-span-1">
             <Search />
             <TableList />
           </aside>
