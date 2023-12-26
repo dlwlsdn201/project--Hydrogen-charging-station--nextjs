@@ -17,6 +17,8 @@ jobs:
         with:
           ref: 'main'
           fetch-depth: '0'
+          node-version: '16.20.1'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Git
         run: |
@@ -43,4 +45,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: main
+          node-version: '16.20.1'
           github_token: ${{ secrets.GITHUB_TOKEN }}
