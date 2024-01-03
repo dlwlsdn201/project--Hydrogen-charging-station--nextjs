@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import KakaoMap from './KakaoMap';
 // import Search from './Search';
 // import TableList from './TableList';
 import dynamic from 'next/dynamic';
+import KakaoMap from './Map/KakaoMap';
+import { IApiResponse } from '@app/types/stations/api';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./TableList'), { ssr: false });
 interface IProps {
-  apiResponse: any;
+  apiResponse: IApiResponse;
 }
 
 export interface IUserLocation {
@@ -16,7 +17,7 @@ export interface IUserLocation {
   lng: number;
 }
 
-const Stations = (props: IProps) => {
+const Stations = ({ apiResponse }: IProps) => {
   const [userLocation, setUserLocation] = useState<IUserLocation>({
     lat: 35.5549546,
     lng: 129.2801509,
@@ -46,7 +47,7 @@ const Stations = (props: IProps) => {
       <main className="flex-grow p-4">
         <div className="grid grid-cols-3 gap-4 h-full">
           <div className="col-span-2 relative">
-            <KakaoMap userLocation={userLocation} />
+            <KakaoMap userLocation={userLocation} stationList={apiResponse?.data} />
           </div>
           <aside className="col-span-1">
             <Search />
