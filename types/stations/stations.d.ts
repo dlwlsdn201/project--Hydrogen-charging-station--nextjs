@@ -1,4 +1,4 @@
-interface IStationObj {
+export interface IStationData {
   경도: string;
   공휴일_시작: string;
   공휴일_종료: string;
