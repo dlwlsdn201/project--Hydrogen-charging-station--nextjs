@@ -1,6 +1,8 @@
 import React from 'react';
 import { CustomOverlayMap, Map, MapTypeControl, ZoomControl } from 'react-kakao-maps-sdk';
-import { IUserLocation } from '.';
+import { IUserLocation } from '..';
+import { IStationData } from '@app/types/stations/stations';
+import Marker from './Marker';
 
 const LoadErrorMap = () => (
   <svg
@@ -21,23 +23,30 @@ const LoadErrorMap = () => (
 );
 
 interface IProps {
+  stationList: IStationData[];
   userLocation: IUserLocation;
 }
 
-const KakaoMap = (props: IProps) => {
-  const { userLocation } = props;
+const KakaoMap = ({ stationList, userLocation }: IProps) => {
+  const mapCenterPotition = { lat: userLocation.lat, lng: userLocation.lng };
+
+  const targetMarkers =
+    stationList.map((sItem: IStationData) => (
+      <Marker
+        key={sItem['충전소_관리번호']}
+        위도={Number(sItem['위도'])}
+        경도={Number(sItem['경도'])}
+        충전소_명={sItem['충전소_명']}
+      />
+    )) ?? [];
+
   return (
     (
-      <Map
-        level={6}
-        center={{ lat: userLocation.lat, lng: userLocation.lng }}
-        style={{ width: '100%', height: '100%' }}
-      >
+      <Map level={6} center={mapCenterPotition} style={{ width: '100%', height: '100%' }}>
         {/* 지도/스카이뷰 제어 Control */}
         <MapTypeControl position="TOPRIGHT" />
         {/* 지도 확대/축소를 제어 Control */}
         <ZoomControl position="BOTTOMRIGHT" />
-
         <CustomOverlayMap // 커스텀 오버레이를 표시할 Container
           // 커스텀 오버레이가 표시될 위치입니다
           position={{
@@ -62,6 +71,7 @@ const KakaoMap = (props: IProps) => {
             <span className="right"></span>
           </div>
         </CustomOverlayMap>
+        {...targetMarkers}
       </Map>
     ) ?? <LoadErrorMap />
   );
