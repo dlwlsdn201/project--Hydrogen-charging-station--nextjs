@@ -1,4 +1,4 @@
-name: To Merge by automation
+name: To Merge automation
 
 on:
   push:
@@ -12,14 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v2
-        with:
-          ref: 'main'
-          fetch-depth: '0'
-          node-version: '16.20.1'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Configure Git
         run: |
           git config user.name JinWoo_Lee
@@ -34,17 +26,25 @@ jobs:
 
             git checkout dev
             git pull origin dev
-            git checkout main
-            git merge dev --no-edit
+            git merge $BRANCH_NAME
+            git push origin dev
           else
             echo "Branch does not match the pattern, skipping the merge."
             exit 0
           fi
 
-      # dev push 발생 시, main 브랜치에 Merge
-      - name: Merge dev branch
-        run: |
-          git merge origin/dev --no-edit
+      # - name: Checkout main branch
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: 'main'
+      #     fetch-depth: '0'
+      #     node-version: '16.20.1'
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # # dev push 발생 시, main 브랜치에 Merge
+      # - name: Merge dev branch
+      #   run: |
+      #     git merge origin/dev --no-edit
 
       - name: Push changes to main branch
         uses: ad-m/github-push-action@master
