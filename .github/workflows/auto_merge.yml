@@ -12,51 +12,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current branch
+      - name: Checkout dev branch
         uses: actions/checkout@v2
         with:
-          ref: $BRANCH_NAME
-          fetch-depth: '0'
-          node-version: '16.20.1'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ref: 'dev'
 
-      - name: Configure Git
-        run: |
-          git config user.name JinWoo_Lee
-          git config user.email dlwlsdn201@naver.com
-
-      # feature/* , bugfix/* 브랜치에 push 발생 시, dev 브랜치에 Merge
-      - name: Check if the branch matches pattern
+      - name: Merge feature branch to dev
         run: |
           BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
-          if [[ $BRANCH_NAME == "feature/"* || $BRANCH_NAME == "bugfix/"* ]]; then
-            echo "$BRANCH_NAME 브랜치에 push가 발생하였으므로, 'dev' 브랜치에 merge를 진행합니다."
+          git merge origin/$BRANCH_NAME --no-edit
 
-            git checkout dev
-            git pull origin dev
-            git merge $BRANCH_NAME
-            git push origin dev
-          else
-            echo "Branch does not match the pattern, skipping the merge."
-            exit 0
-          fi
+      - name: Push changes to dev branch
+        uses: ad-m/github-push-action@master
+        with:
+          branch: 'dev'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Checkout main branch
-      #   uses: actions/checkout@v2
-      #   with:
-      #     ref: 'main'
-      #     fetch-depth: '0'
-      #     node-version: '16.20.1'
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'
 
-      # # dev push 발생 시, main 브랜치에 Merge
-      # - name: Merge dev branch
-      #   run: |
-      #     git merge origin/dev --no-edit
+      - name: Merge dev branch to main
+        run: git merge origin/dev --no-edit
 
       - name: Push changes to main branch
         uses: ad-m/github-push-action@master
         with:
-          branch: main
-          node-version: '16.20.1'
+          branch: 'main'
           github_token: ${{ secrets.GITHUB_TOKEN }}
