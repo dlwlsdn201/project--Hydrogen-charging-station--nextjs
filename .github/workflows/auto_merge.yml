@@ -12,6 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v2
+        with:
+          # ref: 'main'
+          fetch-depth: '0'
+          node-version: '16.20.1'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Configure Git
         run: |
           git config user.name JinWoo_Lee
