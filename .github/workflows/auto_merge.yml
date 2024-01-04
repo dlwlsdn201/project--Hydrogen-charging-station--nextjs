@@ -15,7 +15,7 @@ jobs:
       - name: Checkout current branch
         uses: actions/checkout@v2
         with:
-          # ref: 'main'
+          ref: $BRANCH_NAME
           fetch-depth: '0'
           node-version: '16.20.1'
           github_token: ${{ secrets.GITHUB_TOKEN }}
