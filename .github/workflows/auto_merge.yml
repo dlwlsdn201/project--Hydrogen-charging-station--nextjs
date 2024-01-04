@@ -30,7 +30,12 @@ jobs:
         run: |
           BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
           if [[ $BRANCH_NAME == "feature/"* || $BRANCH_NAME == "bugfix/"* ]]; then
-            echo "Branch matches the pattern, proceeding with the merge."
+            echo "$BRANCH_NAME 브랜치에 push가 발생하였으므로, 'dev' 브랜치에 merge를 진행합니다."
+
+            git checkout dev
+            git pull origin dev
+            git checkout main
+            git merge dev --no-edit
           else
             echo "Branch does not match the pattern, skipping the merge."
             exit 0
