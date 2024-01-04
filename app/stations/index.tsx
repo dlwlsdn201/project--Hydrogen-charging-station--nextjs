@@ -50,11 +50,11 @@ const Stations = ({ apiResponse }: IProps) => {
         </div>
       </header> */}
       <main className="flex-grow p-4">
-        <div className="grid grid-cols-3 gap-4 h-full">
-          <div className="col-span-2 relative">
+        <div className="grid grid-cols-5 gap-4 h-full">
+          <div className="col-span-3 relative">
             <KakaoMap userLocation={userLocation} stationList={apiResponse?.data} />
           </div>
-          <aside className="col-span-1">
+          <aside className="col-span-2 overflow-y-hidden">
             <Search />
             <TableList />
           </aside>
