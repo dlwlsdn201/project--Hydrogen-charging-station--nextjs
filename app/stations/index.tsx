@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import KakaoMap from './Map/KakaoMap';
 import { IApiResponse } from '@app/types/stations/api';
+import { useStationsStore } from '@app/store/stations';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./TableList'), { ssr: false });
 interface IProps {
@@ -18,12 +19,16 @@ export interface IUserLocation {
 }
 
 const Stations = ({ apiResponse }: IProps) => {
+  const { changeStations } = useStationsStore((state) => state);
   const [userLocation, setUserLocation] = useState<IUserLocation>({
     lat: 35.5549546,
     lng: 129.2801509,
   });
 
   useEffect(() => {
+    // 충전소 데이터 리스트 초기화
+    changeStations(apiResponse);
+
     if ('geolocation' in navigator) {
       /* 위치정보 사용 가능 */
       navigator.geolocation.getCurrentPosition((success) => {
@@ -34,7 +39,7 @@ const Stations = ({ apiResponse }: IProps) => {
       alert('사용자의 위치 정보를 불러올 수 없습니다.');
       /* 위치정보 사용 불가능 */
     }
-  }, []);
+  }, [apiResponse, changeStations]);
 
   return (
     <div key="1" className="flex flex-col h-full w-full">
