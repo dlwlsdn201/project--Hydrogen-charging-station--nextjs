@@ -20,10 +20,22 @@ jobs:
       - name: Fetch latest changes from origin
         run: git fetch origin
 
-      - name: Merge feature branch to dev
+      - name: Extract branch name from GITHUB_REF
         run: |
-          BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
-          git merge origin/$BRANCH_NAME --no-edit
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Check if the branch matches the pattern
+        run: |
+          if [[ $BRANCH_NAME == "feature/"* || $BRANCH_NAME == "bugfix/"* ]]; then
+            echo "Branch matches the pattern, proceeding with the merge."
+          else
+            echo "Branch does not match the pattern, skipping the merge."
+            exit 0
+          fi
+
+      - name: Merge feature branch to dev
+        run: git merge $BRANCH_NAME --no-edit
 
       - name: Push changes to dev branch
         uses: ad-m/github-push-action@master
