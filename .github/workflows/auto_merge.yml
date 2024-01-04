@@ -17,6 +17,9 @@ jobs:
         with:
           ref: 'dev'
 
+      - name: Fetch latest changes from origin
+        run: git fetch origin
+
       - name: Merge feature branch to dev
         run: |
           BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
