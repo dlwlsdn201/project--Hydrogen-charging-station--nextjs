@@ -3,6 +3,7 @@ import { CustomOverlayMap, Map, MapTypeControl, ZoomControl } from 'react-kakao-
 import { IUserLocation } from '..';
 import { IStationData } from '@app/types/stations/stations';
 import Marker from './Marker';
+import { useStationsStore } from '@app/store/stations';
 
 const LoadErrorMap = () => (
   <svg
@@ -23,15 +24,15 @@ const LoadErrorMap = () => (
 );
 
 interface IProps {
-  stationList: IStationData[];
   userLocation: IUserLocation;
 }
 
-const KakaoMap = ({ stationList, userLocation }: IProps) => {
+const KakaoMap = ({ userLocation }: IProps) => {
+  const { stationsList } = useStationsStore((state) => state.filteredData);
   const mapCenterPotition = { lat: userLocation.lat, lng: userLocation.lng };
 
   const targetMarkers =
-    stationList.map((sItem: IStationData) => (
+    stationsList.map((sItem: IStationData) => (
       <Marker
         key={sItem['충전소_관리번호']}
         위도={Number(sItem['위도'])}

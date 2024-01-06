@@ -7,6 +7,8 @@ import dynamic from 'next/dynamic';
 import KakaoMap from './Map/KakaoMap';
 import { IApiResponse } from '@app/types/stations/api';
 import { useStationsStore } from '@app/store/stations';
+import { IStationData } from '@app/types/stations/stations';
+import { filteredByStationName, filteredByStreetNumberAddress } from './Handlers';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./TableList'), { ssr: false });
 interface IProps {
@@ -19,15 +21,35 @@ export interface IUserLocation {
 }
 
 const Stations = ({ apiResponse }: IProps) => {
-  const { changeStations } = useStationsStore((state) => state);
+  const { initialData, changeInitialStation, changeFilteredStation } = useStationsStore((state) => state);
   const [userLocation, setUserLocation] = useState<IUserLocation>({
     lat: 35.5549546,
     lng: 129.2801509,
   });
 
+  // 💡 일단 default 로 지번 기준으로 검색 (추후 충전소명/주소명 옵션 필터 구현 필요 ❗️)
+  const handleSearch = (searchText: string): void => {
+    // 1. 필터링하기
+    const filteredStations = initialData?.stationsList.filter((station: IStationData) => {
+      const isMatchedAddress = filteredByStreetNumberAddress({ station, searchText });
+      return isMatchedAddress;
+    });
+
+    const filteredTotalCount = filteredStations.length;
+    // 2. state update 하기
+    changeFilteredStation({
+      data: filteredStations,
+      totalCount: filteredTotalCount,
+    });
+  };
+
   useEffect(() => {
     // 충전소 데이터 리스트 초기화
-    changeStations(apiResponse);
+    const initStationsData = (apiResponse: IApiResponse) => {
+      changeInitialStation(apiResponse);
+      changeFilteredStation(apiResponse);
+    };
+    initStationsData(apiResponse);
 
     if ('geolocation' in navigator) {
       /* 위치정보 사용 가능 */
@@ -39,7 +61,7 @@ const Stations = ({ apiResponse }: IProps) => {
       alert('사용자의 위치 정보를 불러올 수 없습니다.');
       /* 위치정보 사용 불가능 */
     }
-  }, [apiResponse, changeStations]);
+  }, [apiResponse, changeFilteredStation, changeInitialStation]);
 
   return (
     <div key="1" className="flex flex-col h-full w-full">
@@ -52,10 +74,10 @@ const Stations = ({ apiResponse }: IProps) => {
       <main className="flex-grow p-4">
         <div className="grid grid-cols-5 gap-4 h-full">
           <div className="col-span-3 relative">
-            <KakaoMap userLocation={userLocation} stationList={apiResponse?.data} />
+            <KakaoMap userLocation={userLocation} />
           </div>
           <aside className="col-span-2 overflow-y-hidden">
-            <Search />
+            <Search onSearch={handleSearch} />
             <TableList />
           </aside>
         </div>

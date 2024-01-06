@@ -3,7 +3,7 @@ import { IStationData } from '@app/types/stations/stations';
 import React from 'react';
 
 const TableList = () => {
-  const { stationsList } = useStationsStore((state) => state.data);
+  const { stationsList } = useStationsStore((state) => state.filteredData);
   const listItems = stationsList.map((station: IStationData) => ({
     name: station['충전소_명'],
     location: station['지번주소'],

@@ -7,11 +7,17 @@ import { IApiResponse } from '@app/types/stations/api';
 
 export const useStationsStore: UseBoundStore<StoreApi<any>> = create<any, [['zustand/devtools', IStationsState]]>(
   devtools((set) => ({
-    data: {
+    filteredData: {
+      filteredTotalCount: 0,
+      stationsList: [],
+    },
+    initialData: {
       totalCount: 0,
       stationsList: [],
     },
-    changeStations: (payload: IApiResponse) =>
-      set({ data: { totalCount: payload.totalCount, stationsList: payload.data } }),
+    changeInitialStation: (payload: IApiResponse) =>
+      set({ initialData: { totalCount: payload.totalCount, stationsList: payload.data } }),
+    changeFilteredStation: (payload: IApiResponse) =>
+      set({ filteredData: { totalCount: payload.totalCount, stationsList: payload.data } }),
   })),
 );

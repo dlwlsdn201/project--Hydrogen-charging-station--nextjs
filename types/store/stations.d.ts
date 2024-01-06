@@ -5,5 +5,5 @@ export declare interface IStationsState {
     totalCount: number;
     stationsList: IStationObj[];
   };
-  changeStationsList: (payload: IStationObj[]) => void;
+  changeInitialStationList: (payload: IStationObj[]) => void;
 }
