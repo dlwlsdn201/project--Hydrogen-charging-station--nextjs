@@ -23,6 +23,7 @@ jobs:
       - name: Extract branch name from GITHUB_REF
         run: |
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/#/\\#/g')
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Check if the branch matches the pattern
