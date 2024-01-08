@@ -34,5 +34,5 @@ body {
 
 main {
   height: calc(100% - 4rem);
-  overflow: scroll;
+  /* overflow: scroll; */
 }

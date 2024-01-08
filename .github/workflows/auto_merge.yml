@@ -36,9 +36,10 @@ jobs:
           fi
 
       - name: Merge feature branch to dev
+        # git actions 환경에서는 origin/<BRANCH> 를 merge 해야함
         run: |
           git branch -a
-          git merge origin/$BRANCH_NAME --no-edit
+          git merge origin/$BRANCH_NAME --no-edit 
           git push origin dev
 
       - name: Push changes to dev branch
