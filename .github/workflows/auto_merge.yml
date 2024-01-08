@@ -38,8 +38,7 @@ jobs:
       - name: Merge feature branch to dev
         run: |
           git branch -a
-          git checkout dev
-          git merge $BRANCH_NAME
+          git merge origin/$BRANCH_NAME --no-edit
           git push origin dev
 
       - name: Push changes to dev branch
