@@ -13,11 +13,7 @@ const Filter = (): ReactNode => {
         aria-label="Options"
         size="md"
         radius="sm"
-        disabledKeys={['station']}
-        defaultSelectedKey={'address'}
-        onChange={(e) => {
-          console.log({ e });
-        }}
+        defaultSelectedKey={'station'}
         onSelectionChange={(params: Key) => {
           changeSearchType(params as TSearchType);
         }}

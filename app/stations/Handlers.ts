@@ -28,3 +28,9 @@ export const filteredByStreetNumberAddress = ({
   if (searchText) result = typeof station?.지번주소 === 'string' && station?.지번주소.includes(searchText);
   return result;
 };
+
+export const sortDataByStationName = (dataList: IStationData[]) =>
+  dataList.sort((a: IStationData, b: IStationData) => (a['충전소_명'] > b['충전소_명'] ? 1 : -1));
+
+export const sortDataByAddress = (dataList: IStationData[]) =>
+  dataList.sort((a: IStationData, b: IStationData) => (a['지번주소'] > b['지번주소'] ? 1 : -1));

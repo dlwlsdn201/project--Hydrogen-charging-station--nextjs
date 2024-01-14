@@ -8,9 +8,15 @@ import KakaoMap from './Map/KakaoMap';
 import { IApiResponse } from '@app/types/stations/api';
 import { useStationsStore } from '@app/store/stations';
 import { IStationData } from '@app/types/stations/stations';
-import { filteredByStationName, filteredByStreetNumberAddress } from './Handlers';
+import {
+  filteredByStationName,
+  filteredByStreetNumberAddress,
+  sortDataByAddress,
+  sortDataByStationName,
+} from './Handlers';
 import { ScrollShadow, Spacer } from '@nextui-org/react';
 import TableHeader from './Table/Header';
+import { TSearchType } from '@app/types/stations/filter';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./Table'), { ssr: false });
 
@@ -24,26 +30,41 @@ export interface IUserLocation {
 }
 
 const Stations = ({ apiResponse }: IProps) => {
-  const { initialData, changeInitialStation, changeFilteredStation } = useStationsStore((state) => state);
+  const { initialData, changeInitialStation, changeFilteredStation, filter } = useStationsStore((state) => state);
   const [userLocation, setUserLocation] = useState<IUserLocation>({
     lat: 35.5549546,
     lng: 129.2801509,
   });
 
+  /** 검색 유형 필터에 따른 데이터 필터링 함수 */
+  const getFilteredDataBySearchType = ({ type, searchText }: { type: TSearchType; searchText: string }) => {
+    let result: IStationData[] = [];
+    const isStationNameType = type === 'station';
+    result = initialData?.stationsList.filter((station: IStationData) => {
+      const isMatched = isStationNameType
+        ? filteredByStationName({ station, searchText })
+        : filteredByStreetNumberAddress({ station, searchText });
+      return isMatched;
+    });
+
+    return isStationNameType ? sortDataByStationName(result) : sortDataByAddress(result);
+  };
+
   // 💡 일단 default 로 지번 기준으로 검색 (추후 충전소명/주소명 옵션 필터 구현 필요 ❗️)
   const handleSearch = (searchText: string): void => {
     // 1. 필터링하기
-    const filteredStations = initialData?.stationsList.filter((station: IStationData) => {
-      const isMatchedAddress = filteredByStreetNumberAddress({ station, searchText });
-      return isMatchedAddress;
-    });
-
+    const filteredStations = getFilteredDataBySearchType({ type: filter?.searchType, searchText });
     const filteredTotalCount = filteredStations.length;
     // 2. state update 하기
     changeFilteredStation({
       data: filteredStations,
       totalCount: filteredTotalCount,
     });
+  };
+
+  /** Table 리스트에서 특정 item 클릭 시, 해당 item 에 대한 좌표로 지도 중심을 이동시키기 위한 좌표 state update 함수 */
+  const handleCenterLocation = ({ lat, lng }: { lat: number; lng: number }): void => {
+    setUserLocation({ lat, lng });
   };
 
   useEffect(() => {
@@ -68,16 +89,10 @@ const Stations = ({ apiResponse }: IProps) => {
 
   return (
     <div key="1" className="flex flex-col h-full w-full">
-      {/* <header className="flex items-center justify-between p-4 bg-white border-b-2">
-        <div className="flex items-center gap-4">
-          <MapIcon className="w-6 h-6" />
-          <h1 className="text-lg font-semibold">Locations Map</h1>
-        </div>
-      </header> */}
       <main className="flex-grow p-4">
         <div className="grid grid-cols-5 gap-4 h-full">
           <div className="col-span-3 relative">
-            <KakaoMap userLocation={userLocation} />
+            <KakaoMap userLocation={userLocation} handleCenterLocation={handleCenterLocation} />
           </div>
           <aside className="col-span-2 overflow-y-hidden">
             <Search onSearch={handleSearch} />
@@ -85,7 +100,7 @@ const Stations = ({ apiResponse }: IProps) => {
             <TableHeader />
             {/* offset: Shadow 시작 시점 */}
             <ScrollShadow hideScrollBar size={120} offset={0} className="h-[90%]">
-              <TableList />
+              <TableList handleCenterLocation={handleCenterLocation} />
             </ScrollShadow>
           </aside>
         </div>

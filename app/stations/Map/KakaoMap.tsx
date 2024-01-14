@@ -25,6 +25,7 @@ const LoadErrorMap = () => (
 
 interface IProps {
   userLocation: IUserLocation;
+  handleCenterLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
 }
 
 const KakaoMap = ({ userLocation }: IProps) => {
@@ -51,8 +52,8 @@ const KakaoMap = ({ userLocation }: IProps) => {
         <CustomOverlayMap // 커스텀 오버레이를 표시할 Container
           // 커스텀 오버레이가 표시될 위치입니다
           position={{
-            lat: userLocation.lat,
-            lng: userLocation.lng,
+            lat: 35.5549546,
+            lng: 129.2801509,
           }}
         >
           {/* 커스텀 오버레이에 표시할 내용입니다 */}
