@@ -1,10 +1,9 @@
 import { StoreApi, UseBoundStore, create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type {} from 'redux-devtools-extension';
-import { IStationsState } from '@app/types/store/stations';
+import { IModalState, IStationsState } from '@app/types/store/stations';
 import { IApiResponse } from '@app/types/stations/api';
 import { TSearchType } from '@app/types/stations/filter';
-import { IStationData } from '@app/types/stations/stations';
 import { sortDataByStationName } from '@app/app/stations/Handlers';
 // import { produce } from 'immer';
 
@@ -33,5 +32,16 @@ export const useStationsStore: UseBoundStore<StoreApi<any>> = create<any, [['zus
     },
     changeSearchType: (payload: TSearchType) => set({ filter: { searchType: payload } }),
     changeSearchValue: (payload: string) => set({ filter: { searchValue: payload } }),
+    modal: {
+      isOpen: false,
+      data: undefined,
+    },
+    changeModal: (payload: IModalState) =>
+      set({
+        modal: {
+          isOpen: payload.isOpen,
+          data: payload.data,
+        },
+      }),
   })),
 );

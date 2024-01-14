@@ -1,6 +1,6 @@
 import { useStationsStore } from '@app/store/stations';
 import { IStationData } from '@app/types/stations/stations';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 interface IProps {
   handleCenterLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
@@ -8,24 +8,33 @@ interface IProps {
 
 const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   const { stationsList } = useStationsStore((state) => state.filteredData);
+  const { changeModal, modal } = useStationsStore((state) => state);
+
   const listItems = stationsList.map((station: IStationData) => ({
     ...station,
     name: station['충전소_명'],
     location: station['지번주소'],
   }));
 
+  const handleRowClick = (stationData: IStationData) => {
+    handleCenterLocation({ lat: Number(stationData['위도']), lng: Number(stationData['경도']) });
+    changeModal({ isOpen: true, data: stationData });
+  };
+
   return (
     <table className="w-full text-left border-collapse">
       <tbody>
-        {listItems.map((item: IStationData & { name: string; location: string }, idx: number) => (
+        {listItems.map((item: IStationData, idx: number) => (
           <tr
-            key={item.name}
+            key={item['충전소_명']}
             className="hover:bg-sky-700 hover:cursor-pointer grid grid-cols-10"
-            onClick={(_) => handleCenterLocation({ lat: Number(item['위도']), lng: Number(item['경도']) })}
+            onClick={(_) => {
+              handleRowClick(item);
+            }}
           >
             <td className="py-4 px-4 border-b col-span-1 border-grey-light text-center">{idx + 1}</td>
-            <td className="py-4 px-4 border-b col-span-4 border-grey-light">{item.name}</td>
-            <td className="py-4 px-4 border-b col-span-5 border-grey-light ">{item.location}</td>
+            <td className="py-4 px-4 border-b col-span-4 border-grey-light">{item['충전소_명']}</td>
+            <td className="py-4 px-4 border-b col-span-5 border-grey-light ">{item['지번주소']}</td>
           </tr>
         ))}
       </tbody>

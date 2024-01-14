@@ -17,6 +17,7 @@ import {
 import { ScrollShadow, Spacer } from '@nextui-org/react';
 import TableHeader from './Table/Header';
 import { TSearchType } from '@app/types/stations/filter';
+import InfoModal from './Modal/index';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./Table'), { ssr: false });
 
@@ -104,6 +105,7 @@ const Stations = ({ apiResponse }: IProps) => {
             </ScrollShadow>
           </aside>
         </div>
+        <InfoModal />
       </main>
     </div>
   );

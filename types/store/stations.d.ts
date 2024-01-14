@@ -1,17 +1,22 @@
 import { TSearchType } from '@app/types/stations/filter';
-/** 지역별 수소차 등록 현황 */
+import { IStationData } from '@app/types/stations/stations';
+
+export interface IModalState {
+  isOpen: boolean;
+  data: IStationData;
+}
 
 export declare interface IStationsState {
-  changeInitialStationList: (payload: IStationObj[]) => void;
+  changeInitialStationList: (payload: IStationData[]) => void;
 
   initialData: {
     totalCount: number;
-    stationsList: IStationObj[];
+    stationsList: IStationData[];
   };
   changeInitialStation: (payload: IApiResponse) => void;
   filteredData: {
     totalCount: number;
-    stationsList: IStationObj[];
+    stationsList: IStationData[];
   };
   changeFilteredStation: (payload: IApiResponse) => void;
   filter: {
@@ -20,4 +25,6 @@ export declare interface IStationsState {
   };
   changeSearchType: (payload: TSearchType) => void;
   changeSearchValue: (payload: string) => void;
+  modal: IModalState;
+  changeModal: (payload: {}) => void;
 }
