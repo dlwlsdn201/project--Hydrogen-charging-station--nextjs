@@ -20,3 +20,15 @@ export const InnerContainer = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+export const FlexCenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

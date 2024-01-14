@@ -9,12 +9,10 @@ import { IApiResponse } from '@app/types/stations/api';
 import { useStationsStore } from '@app/store/stations';
 import { IStationData } from '@app/types/stations/stations';
 import { filteredByStationName, filteredByStreetNumberAddress } from './Handlers';
-import { ScrollShadow } from '@nextui-org/react';
+import { ScrollShadow, Spacer } from '@nextui-org/react';
 import TableHeader from './Table/Header';
 const Search = dynamic(() => import('./Search'), { ssr: false });
 const TableList = dynamic(() => import('./Table'), { ssr: false });
-
-type ScrollShadowVisibility = 'auto' | 'top' | 'bottom' | 'left' | 'right' | 'both' | 'none';
 
 interface IProps {
   apiResponse: IApiResponse;
@@ -83,8 +81,10 @@ const Stations = ({ apiResponse }: IProps) => {
           </div>
           <aside className="col-span-2 overflow-y-hidden">
             <Search onSearch={handleSearch} />
+            <Spacer y={4} />
             <TableHeader />
-            <ScrollShadow hideScrollBar size={130} offset={10} className="h-[100%] border-red-500 border-1">
+            {/* offset: Shadow 시작 시점 */}
+            <ScrollShadow hideScrollBar size={120} offset={0} className="h-[90%]">
               <TableList />
             </ScrollShadow>
           </aside>
