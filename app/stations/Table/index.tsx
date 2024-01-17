@@ -1,6 +1,6 @@
 import { useStationsStore } from '@app/store/stations';
 import { IStationData } from '@app/types/stations/stations';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 interface IProps {
   handleCenterLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
@@ -8,13 +8,7 @@ interface IProps {
 
 const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   const { stationsList } = useStationsStore((state) => state.filteredData);
-  const { changeModal, modal } = useStationsStore((state) => state);
-
-  const listItems = stationsList.map((station: IStationData) => ({
-    ...station,
-    name: station['충전소_명'],
-    location: station['지번주소'],
-  }));
+  const { changeModal } = useStationsStore((state) => state);
 
   const handleRowClick = (stationData: IStationData) => {
     handleCenterLocation({ lat: Number(stationData['위도']), lng: Number(stationData['경도']) });
@@ -24,7 +18,7 @@ const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   return (
     <table className="w-full text-left border-collapse">
       <tbody>
-        {listItems.map((item: IStationData, idx: number) => (
+        {stationsList.map((item: IStationData, idx: number) => (
           <tr
             key={item['충전소_명']}
             className="hover:bg-sky-700 hover:cursor-pointer grid grid-cols-10"

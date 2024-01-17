@@ -1,4 +1,5 @@
 export interface IStationData {
+  [index: string]: any; // 모든 문자열 인덱스를 허용함
   경도: string;
   공휴일_시작: string;
   공휴일_종료: string;

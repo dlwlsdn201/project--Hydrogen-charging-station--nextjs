@@ -1,20 +1,22 @@
+import { useStationsStore } from '@app/store/stations';
 import { Button } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { CustomOverlayMap, MapMarker } from 'react-kakao-maps-sdk';
+import { IStationsState } from '@app/types/store/stations';
+import { IStationData } from '@app/types/stations/stations';
 
 interface IProps {
-  위도: number;
-  경도: number;
-  충전소_명: string;
+  stationData: IStationData;
 }
 
-const Marker = ({ 위도, 경도, 충전소_명 }: IProps) => {
+const Marker = ({ stationData }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { changeModal } = useStationsStore((state: IStationsState) => state);
 
   const markerPosition = {
     // 인포윈도우가 표시될 위치입니다
-    lat: 위도,
-    lng: 경도,
+    lat: Number(stationData['위도']),
+    lng: Number(stationData['경도']),
   };
 
   return (
@@ -35,14 +37,19 @@ const Marker = ({ 위도, 경도, 충전소_명 }: IProps) => {
       {isOpen && (
         <CustomOverlayMap position={markerPosition} yAnchor={1.8} clickable={true}>
           <div className="flex justify-center w-auto font-normal text-black bg-slate-100 border-1 border-gray-300 flex-col px-2 py-2">
-            <div className="text-sm mb-1 mx-auto">{충전소_명}</div>
+            <div className="text-sm mb-1 mx-auto">{stationData['충전소_명']}</div>
             <div className="flex justify-around gap-2">
               <Button
                 className="w-[50%] h-6 text-xs"
                 color="primary"
                 size="sm"
                 radius="sm"
-                onClick={() => alert('상세 Modal 개발 전')}
+                onClick={() => {
+                  changeModal({
+                    isOpen: true,
+                    data: stationData,
+                  });
+                }}
               >
                 상세 정보
               </Button>

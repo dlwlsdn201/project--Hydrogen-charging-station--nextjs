@@ -33,14 +33,7 @@ const KakaoMap = ({ userLocation }: IProps) => {
   const mapCenterPotition = { lat: userLocation.lat, lng: userLocation.lng };
 
   const targetMarkers =
-    stationsList.map((sItem: IStationData) => (
-      <Marker
-        key={sItem['충전소_관리번호']}
-        위도={Number(sItem['위도'])}
-        경도={Number(sItem['경도'])}
-        충전소_명={sItem['충전소_명']}
-      />
-    )) ?? [];
+    stationsList.map((sItem: IStationData) => <Marker key={sItem['충전소_관리번호']} stationData={sItem} />) ?? [];
 
   return (
     (
