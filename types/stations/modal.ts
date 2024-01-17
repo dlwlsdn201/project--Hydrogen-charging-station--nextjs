@@ -9,3 +9,9 @@ export type IModalDataKey =
   | '충전소_유형코드'
   | '요일별 영업시간'
   | '휴식_시간';
+
+export interface IWorkTimeDaily {
+  week: string;
+  start: string;
+  end: string;
+}

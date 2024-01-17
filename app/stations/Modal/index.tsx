@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from 'react';
+import React, { KeyboardEvent, ReactNode } from 'react';
 import {
   Modal,
   ModalContent,
@@ -15,7 +15,8 @@ import {
 } from '@nextui-org/react';
 import { useStationsStore } from '@app/store/stations';
 import { IStationsState } from '@app/types/store/stations';
-import { IModalDataKey } from '@app/types/stations/modal';
+import { IModalDataKey, IWorkTimeDaily } from '@app/types/stations/modal';
+import { getWorkTimeDaily } from './Handlers';
 
 const dataKey: IModalDataKey[] = [
   '지번주소',
@@ -30,29 +31,56 @@ const dataKey: IModalDataKey[] = [
   '휴식_시간',
 ];
 
-const InfoModal = () => {
+const InfoModal = (): ReactNode => {
   const {
     changeModal,
     modal: { isOpen, data },
   } = useStationsStore((state: IStationsState) => state);
 
-  const closeModal = () => {
+  /** Modal UI 종료 핸들러 함수 */
+  const closeModal = (): void => {
     changeModal({ isOpen: false });
   };
 
-  const handleESCKey = (e: KeyboardEvent<HTMLElement>) => {
+  /** esc 키에 Modal Close 이벤트 트리거 연결 */
+  const handleESCKey = (e: KeyboardEvent<HTMLElement>): void => {
     // 🔎 KeyboardEvent codes Ref : (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code)
     if (e.code === 'Escape') {
       closeModal();
     }
   };
 
+  const workTimeDaily: IWorkTimeDaily[] = getWorkTimeDaily(data);
+
   const tableItems =
     data &&
-    dataKey.map((key: any) => {
-      if (key === '판매가격') return { title: key, value: data[key] ? `${data[key].toLocaleString()} 원` : '' };
+    dataKey.map((key: IModalDataKey) => {
+      if (key === '판매가격') return { title: key, content: data[key] ? `${data[key].toLocaleString()} 원` : '' };
 
-      return { title: key, value: data[key] ?? '' };
+      if (key === '요일별 영업시간')
+        return {
+          title: key,
+          content: (
+            <Table removeWrapper aria-label="Example static collection table">
+              <TableHeader>
+                {workTimeDaily.map((item: IWorkTimeDaily, index: number) => (
+                  <TableColumn key={index}>{item?.week}</TableColumn>
+                ))}
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  {workTimeDaily.map((item: { week: string; start: string; end: string }, index: number) => (
+                    <TableCell key={index}>
+                      <strong className="text-small">{`${item?.start} ~ ${item?.end} `}</strong>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          ),
+        };
+
+      return { title: key.replace('_', ' '), content: data[key] ?? '' };
     });
 
   return (
@@ -108,14 +136,12 @@ const InfoModal = () => {
                 <TableColumn>content</TableColumn>
               </TableHeader>
               <TableBody>
-                {tableItems.map((item, idx) => (
+                {tableItems.map((item: { title: string; content: string | ReactNode }, idx: number) => (
                   <TableRow key={idx}>
-                    <TableCell>
-                      <strong className="text-large">{item?.title}</strong>
+                    <TableCell width={'15%'}>
+                      <strong className="text-medium">{item?.title}</strong>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-large"> {item?.value}</span>
-                    </TableCell>
+                    <TableCell>{item?.content}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
