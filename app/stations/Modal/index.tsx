@@ -17,6 +17,7 @@ import { useStationsStore } from '@app/store/stations';
 import { IStationsState } from '@app/types/store/stations';
 import { IModalDataKey, IWorkTimeDaily } from '@app/types/stations/modal';
 import { getWorkTimeDaily } from './Handlers';
+import { IStationData } from '@app/types/stations/stations';
 
 const dataKey: IModalDataKey[] = [
   '지번주소',
@@ -50,38 +51,56 @@ const InfoModal = (): ReactNode => {
     }
   };
 
-  const workTimeDaily: IWorkTimeDaily[] = getWorkTimeDaily(data);
-
-  const tableItems =
-    data &&
-    dataKey.map((key: IModalDataKey) => {
-      if (key === '판매가격') return { title: key, content: data[key] ? `${data[key].toLocaleString()} 원` : '' };
-
-      if (key === '요일별 영업시간')
-        return {
-          title: key,
-          content: (
-            <Table removeWrapper aria-label="Example static collection table">
-              <TableHeader>
-                {workTimeDaily.map((item: IWorkTimeDaily, index: number) => (
-                  <TableColumn key={index}>{item?.week}</TableColumn>
+  /** Modal UI 내부에 출력될 정보들 형식으로 변환하는 함수 */
+  const formatToModalContent = ({ key, data }: { key: IModalDataKey; data: IStationData }) => {
+    const label = key.replace('_', ' ');
+    if (key === '판매가격') return { title: label, content: data[key] ? `${data[key].toLocaleString()} 원` : '' };
+    else if (key === '요일별 영업시간')
+      return {
+        title: label,
+        content: (
+          <Table removeWrapper aria-label="Example static collection table">
+            <TableHeader>
+              {workTimeDaily.map((item: IWorkTimeDaily, index: number) => (
+                <TableColumn key={index} className={item.options?.textColor}>
+                  {item?.week}
+                </TableColumn>
+              ))}
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                {workTimeDaily.map((item: { week: string; start: string; end: string }, index: number) => (
+                  <TableCell key={index}>
+                    <strong className="text-small">{`${item?.start} ~ ${item?.end} `}</strong>
+                  </TableCell>
                 ))}
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  {workTimeDaily.map((item: { week: string; start: string; end: string }, index: number) => (
-                    <TableCell key={index}>
-                      <strong className="text-small">{`${item?.start} ~ ${item?.end} `}</strong>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
+              </TableRow>
+            </TableBody>
+          </Table>
+        ),
+      };
+    else if (key === '휴식_시간')
+      return {
+        title: label,
+        content:
+          data?.휴식_시작 && data?.휴식_종료 ? (
+            <div>
+              <span>{data?.휴식_시작}</span>
+              {' ~ '}
+              <span>{data?.휴식_종료}</span>
+            </div>
+          ) : (
+            <div className="text-gray-500">
+              <span>정보 미제공</span>
+            </div>
           ),
-        };
+      };
+    // Default
+    else return { title: label, content: data[key] ?? '' };
+  };
 
-      return { title: key.replace('_', ' '), content: data[key] ?? '' };
-    });
+  const workTimeDaily: IWorkTimeDaily[] = getWorkTimeDaily(data);
+  const tableItems = data && dataKey.map((key: IModalDataKey) => formatToModalContent({ key, data }));
 
   return (
     data && (

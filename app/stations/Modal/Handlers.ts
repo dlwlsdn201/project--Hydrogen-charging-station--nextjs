@@ -12,15 +12,23 @@ export const getWorkTimeDaily = (data: IStationData): IWorkTimeDaily[] => {
       const targetTimeFields: string[] = dataKeys.filter((key) => key.includes(day));
       let start: string = '-';
       let end: string = '-';
-
+      let textColor: string = 'text-black';
       targetTimeFields.forEach((timeKey: string): void => {
         if (timeKey.includes('시작')) start = data[timeKey];
         if (timeKey.includes('종료')) end = data[timeKey];
       });
 
-      return { week: day, start, end };
+      // options
+      if (['토요일', '일요일', '공휴일'].includes(day)) textColor = 'text-red-500';
+      return {
+        week: day,
+        start,
+        end,
+        options: {
+          textColor,
+        },
+      };
     });
   }
-
   return result;
 };

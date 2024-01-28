@@ -14,4 +14,7 @@ export interface IWorkTimeDaily {
   week: string;
   start: string;
   end: string;
+  options?: {
+    textColor: string;
+  };
 }
