@@ -30,7 +30,7 @@ const RootNav = () => {
         {/* <AcmeLogo /> */}
         <p className="font-bold text-inherit">Logo</p>
       </NavbarBrand>
-      <NavbarContent className="hidden tablet:flex gap-10" justify="center">
+      <NavbarContent className="hidden tablet-lg:flex gap-10" justify="center">
         {menuItems.map((menu: IMenu, index: number) => (
           <NavbarItem key={`${menu.title}-${index}`}>
             <Link href={menu.href} style={{ color: 'white' }}>
@@ -40,7 +40,7 @@ const RootNav = () => {
         ))}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarMenuToggle className="tablet:hidden" />
+        <NavbarMenuToggle className="tablet-lg:hidden" />
         <NavbarMenu className="bg-transparent gap-8 py-4 justify-center h-[100%]">
           {menuItems.map((item: IMenu, index: number) => (
             <NavbarMenuItem key={`${item.title}-${index}`}>
