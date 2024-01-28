@@ -22,7 +22,8 @@
     "baseUrl": ".",
     "paths": {
       "@app/*": ["./*"],
-      "@api/*": ["./app/api/*"]
+      "@api/*": ["./app/api/*"],
+      "@public/*": ["./public/*"]
     },
     "types": ["kakao.maps.d.ts"]
   },

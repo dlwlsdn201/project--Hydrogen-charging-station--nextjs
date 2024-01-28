@@ -18,11 +18,7 @@ const StationsPage = async () => {
   };
 
   const apiResponse = await initStationsData();
-  return (
-    <>
-      <Stations apiResponse={apiResponse} />
-    </>
-  );
+  return <Stations apiResponse={apiResponse} />;
 };
 
 export default StationsPage;

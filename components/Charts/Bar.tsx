@@ -9,8 +9,8 @@ ChartJS.register(CategoryScale, LinearScale, ChartDataLabels, BarElement, Title,
 const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
   const options: TOptions = {
     // type: 'bar',
-    // responsive: true,
-    // maintainAspectRatio: true,
+    responsive: true,
+    maintainAspectRatio: false,
     elements: {
       bar: {
         borderWidth: 1,
@@ -76,7 +76,7 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
     },
   };
   return (
-    <div className="flex h-min w-[100%]">
+    <div className="flex h-[100%] w-[100%]">
       <Bar options={options} data={data} />
     </div>
   );
