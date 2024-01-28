@@ -101,7 +101,7 @@ const InfoModal = (): ReactNode => {
 
   const workTimeDaily: IWorkTimeDaily[] = getWorkTimeDaily(data);
   const tableItems = data && dataKey.map((key: IModalDataKey) => formatToModalContent({ key, data }));
-
+  const [colBorderRadiusRangeTop, colBorderRadiusRangeBottom]: number[] = [0, tableItems?.length - 1];
   return (
     data && (
       <Modal
@@ -143,7 +143,7 @@ const InfoModal = (): ReactNode => {
           <ModalHeader className="flex flex-col gap-1 text-2xl">{data['충전소_명']}</ModalHeader>
           <ModalBody>
             <Table
-              isStriped
+              // isStriped
               hideHeader
               classNames={{
                 wrapper: 'max-h-[100%]',
@@ -157,10 +157,19 @@ const InfoModal = (): ReactNode => {
               <TableBody>
                 {tableItems.map((item: { title: string; content: string | ReactNode }, idx: number) => (
                   <TableRow key={idx}>
-                    <TableCell width={'15%'}>
+                    <TableCell
+                      width={'15%'}
+                      className={`bg-slate-200 ${colBorderRadiusRangeTop === idx && 'rounded-t-lg'} ${
+                        colBorderRadiusRangeBottom === idx && 'rounded-b-lg'
+                      } ${colBorderRadiusRangeBottom !== idx && 'border-b-[0.2px] border-slate-100'}`}
+                    >
                       <strong className="text-medium">{item?.title}</strong>
                     </TableCell>
-                    <TableCell>{item?.content}</TableCell>
+                    <TableCell
+                      className={`${colBorderRadiusRangeBottom !== idx && 'border-b-[0.2px] border-gray-100'}`}
+                    >
+                      {item?.content}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
