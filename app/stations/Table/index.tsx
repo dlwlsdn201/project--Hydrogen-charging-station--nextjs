@@ -8,11 +8,9 @@ interface IProps {
 
 const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   const { stationsList } = useStationsStore((state) => state.filteredData);
-  const { changeModal } = useStationsStore((state) => state);
 
   const handleRowClick = (stationData: IStationData) => {
     handleCenterLocation({ lat: Number(stationData['위도']), lng: Number(stationData['경도']) });
-    changeModal({ isOpen: true, data: stationData });
   };
 
   return (
