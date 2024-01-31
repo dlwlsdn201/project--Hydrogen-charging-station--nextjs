@@ -5,5 +5,7 @@ export const useCommonStore: UseBoundStore<StoreApi<unknown>> = create(
   (set): ICommonState => ({
     navIdx: 'dashboard',
     changeNavIdx: (key) => set({ navIdx: key }),
+    isLoading: false,
+    changeIsLoading: (value: boolean) => set({ isLoading: value }),
   }),
 );

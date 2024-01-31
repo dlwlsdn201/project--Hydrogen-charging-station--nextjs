@@ -1,11 +1,14 @@
 'use client';
-import { Divider } from '@nextui-org/react';
-import ChartRegStatus from './RegStatus/Chart';
-import ChartPriceStatus from './PriceStatus/Chart';
+// import ChartRegStatus from './RegStatus/Chart';
+// import ChartPriceStatus from './PriceStatus/Chart';
 import { useDashboardStore } from '@app/store/dashboard';
-import { useEffect, useMemo } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { IPriceDataObj, IRegDataObj, TPriceChartDataKey, TRegChartDataKey } from '@app/types/dashboard/chart';
-import { faker } from '@faker-js/faker';
+import { Divider } from '@nextui-org/react';
+import Loading from './loading';
+
+const ChartRegStatus = lazy(() => import('./RegStatus/Chart'));
+const ChartPriceStatus = lazy(() => import('./PriceStatus/Chart'));
 
 interface IProps {
   apiResponse: {
@@ -131,7 +134,6 @@ const Dashboard = ({ apiResponse }: IProps) => {
 
   useEffect(() => {
     changePriceStatus({
-      ...priceStatus,
       totalCount: apiResponse.price.totalCount,
       data: apiResponse.price.data,
     });
@@ -140,10 +142,11 @@ const Dashboard = ({ apiResponse }: IProps) => {
 
   return (
     <div className="flex flex-col justify-center items-center w-[80vw] h-[100%]">
-      {/* <Spinner label="loading..." color="success" /> */}
-      <ChartRegStatus chartData={chartData?.reg} />
-      <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
-      <ChartPriceStatus chartData={chartData?.price} />
+      <Suspense fallback={<Loading />}>
+        <ChartRegStatus chartData={chartData?.reg} />
+        <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
+        <ChartPriceStatus chartData={chartData?.price} />
+      </Suspense>
     </div>
   );
 };
