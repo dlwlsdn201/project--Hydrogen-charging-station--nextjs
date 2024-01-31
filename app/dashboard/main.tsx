@@ -139,7 +139,7 @@ const Dashboard = ({ apiResponse }: IProps) => {
   }, [apiResponse, changePriceStatus, changeRegStatus]);
 
   return (
-    <div className="flex flex-col justify-center items-center w-[50vw]">
+    <div className="flex flex-col justify-center items-center w-[80vw] h-[100%]">
       {/* <Spinner label="loading..." color="success" /> */}
       <ChartRegStatus chartData={chartData?.reg} />
       <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />

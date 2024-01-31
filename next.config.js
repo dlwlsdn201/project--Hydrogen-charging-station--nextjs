@@ -5,6 +5,9 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_KAKAO_MAP_API_KEY: '75b41bbfe71e6763b3e69985a25731bc',
   },
+  compiler: {
+    styledComponents: true,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.tsx?$/,

@@ -25,7 +25,7 @@ const ChartPriceStatus = (props: IProps) => {
   }, [datePicker, dateTitle]);
 
   return (
-    <div className=" flex w-[100%] flex-[0.45] justify-center">
+    <div className=" flex w-[100%] h-[50%] flex-[0.45] px-22 justify-center">
       <ModuleBar title={`${dateTitle} 평균 수소충전소 판매 가격 현황`} data={chartData} />
       <Filter />
     </div>
