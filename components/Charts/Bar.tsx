@@ -14,7 +14,7 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
     elements: {
       bar: {
         borderWidth: 1,
-        inflateAmount: 0,
+        inflateAmount: 2,
       },
     },
     layout: {
@@ -59,14 +59,17 @@ const ModuleBar = ({ title, data }: { title: string; data: TChartData }) => {
       title: {
         display: true,
         text: title,
-        // fullSize: true,
+        fullSize: true,
         font: {
-          size: 20,
+          size: 24,
         },
+        position: 'top',
       },
       datalabels: {
         // 차트 그래프 값을 text label 로 출력
         color: '#FFF',
+        align: 'center',
+        formatter: (value: any) => value?.toLocaleString() ?? value,
       },
     },
     animation: {

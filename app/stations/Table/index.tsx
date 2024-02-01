@@ -14,7 +14,7 @@ const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   };
 
   return (
-    <table className="w-full text-left border-collapse">
+    <table className="w-full text-left border-collapse tablet-sm:text-small">
       <tbody>
         {stationsList.map((item: IStationData, idx: number) => (
           <tr
@@ -24,9 +24,15 @@ const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
               handleRowClick(item);
             }}
           >
-            <td className="py-4 px-4 border-b col-span-1 border-grey-light text-center">{idx + 1}</td>
-            <td className="py-4 px-4 border-b col-span-4 border-grey-light">{item['충전소_명']}</td>
-            <td className="py-4 px-4 border-b col-span-5 border-grey-light ">{item['지번주소']}</td>
+            <td className="py-4 px-4 tablet-sm:px-[0.3rem] flex justify-center items-center border-b col-span-1 border-grey-light text-center">
+              {idx + 1}
+            </td>
+            <td className="py-4 px-4 tablet-sm:px-[0.3rem] flex items-center border-b col-span-4 border-grey-light">
+              {item['충전소_명']}
+            </td>
+            <td className="py-4 px-4 tablet-sm:px-[0.3rem] flex items-center border-b col-span-5 border-grey-light ">
+              {item['지번주소']}
+            </td>
           </tr>
         ))}
       </tbody>

@@ -3,6 +3,7 @@ import Filter from './Filter';
 import { FlexWrapper } from '@app/components/Modules/StyleComponents';
 import { Button } from '@nextui-org/react';
 import { useStationsStore } from '../../../store/stations';
+import Input from './Input';
 
 interface ISearchIconProps {
   className: string;
@@ -41,19 +42,16 @@ const Search = (props: IProps): JSX.Element => {
   };
 
   return (
-    <FlexWrapper>
+    <FlexWrapper className="tablet-sm:!gap-[0.5rem] tablet-sm:!flex-wrap">
       <Filter />
       <form className="relative w-[100%]" onSubmit={(e) => e.preventDefault()}>
         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
         <div className="flex items-center gap-1 justify-between h-[100%] text-black">
-          <input
-            name="search"
-            className="pl-8 py-1 w-[100%] h-[100%] rounded-xl"
-            placeholder={searchType === 'address' ? '주소명/지역명' : '충전소명'}
-            type="search"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.currentTarget.value)}
-            onKeyUp={handleEnterKey}
+          <Input
+            searchType={searchType}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            handleEnterKey={handleEnterKey}
           />
           <Button
             className="ml-2 px-3 py-1 rounded-xl"

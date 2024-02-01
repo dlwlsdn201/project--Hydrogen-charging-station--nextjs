@@ -25,6 +25,7 @@ export const InnerContainer = styled.div`
 export const FlexWrapper = styled.div`
   display: flex;
   justify-content: center;
+  flex-wrap: nowrap;
   gap: 1rem;
 `;
 
