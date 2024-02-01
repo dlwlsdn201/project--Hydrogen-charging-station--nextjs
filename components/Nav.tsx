@@ -63,7 +63,7 @@ const RootNav = () => {
           {menuItems.map((item: IMenu, index: number) => (
             <NavbarMenuItem key={`${item.title}-${index}`} onMouseOver={(e) => e.stopPropagation()}>
               <Link
-                className="w-full text-white justify-center text-2xl h-[100%]"
+                className="w-full text-white justify-center text-3xl h-[100%]"
                 href={item.href}
                 onMouseOver={(e) => {
                   e.stopPropagation();

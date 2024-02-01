@@ -37,7 +37,7 @@ const KakaoMap = ({ userLocation }: IProps) => {
 
   return (
     (
-      <Map level={6} center={mapCenterPotition} style={{ width: '100%', height: '100%' }}>
+      <Map level={6} center={mapCenterPotition} style={{ width: '100%', height: '100%', borderRadius: '0.75rem' }}>
         {/* 지도/스카이뷰 제어 Control */}
         <MapTypeControl position="TOPRIGHT" />
         {/* 지도 확대/축소를 제어 Control */}

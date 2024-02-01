@@ -18,7 +18,7 @@ const config: Config = {
     screens: {
       mobile: '0px',
       // => @media (min-width: 0px) { ... }
-      'tablet-sm': '600px',
+      'tablet-sm': '768px',
       // => @media (min-width: 640px) { ... }
       'tablet-lg': '1000px',
       // => @media (min-width: 640px) { ... }

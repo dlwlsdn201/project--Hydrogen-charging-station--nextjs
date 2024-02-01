@@ -90,23 +90,21 @@ const Stations = ({ apiResponse }: IProps) => {
 
   return (
     <div key="1" className="flex flex-col h-full w-full">
-      <main className="flex-grow p-4">
-        <div className="grid grid-cols-5 gap-4 h-full">
-          <div className="col-span-3 relative">
-            <KakaoMap userLocation={userLocation} handleCenterLocation={handleCenterLocation} />
-          </div>
-          <aside className="col-span-2 overflow-y-hidden">
-            <Search onSearch={handleSearch} />
-            <Spacer y={4} />
-            <TableHeader />
-            {/* offset: Shadow 시작 시점 */}
-            <ScrollShadow hideScrollBar size={120} offset={0} className="h-[90%]">
-              <TableList handleCenterLocation={handleCenterLocation} />
-            </ScrollShadow>
-          </aside>
+      <div className="grid grid-cols-5 gap-4 h-full">
+        <div className="col-span-3 relative">
+          <KakaoMap userLocation={userLocation} handleCenterLocation={handleCenterLocation} />
         </div>
-        <InfoModal />
-      </main>
+        <aside className="col-span-2 overflow-y-hidden">
+          <Search onSearch={handleSearch} />
+          <Spacer y={4} />
+          <TableHeader />
+          {/* offset: Shadow 시작 시점 */}
+          <ScrollShadow hideScrollBar size={120} offset={0} className="h-[90%]">
+            <TableList handleCenterLocation={handleCenterLocation} />
+          </ScrollShadow>
+        </aside>
+      </div>
+      <InfoModal />
     </div>
   );
 };

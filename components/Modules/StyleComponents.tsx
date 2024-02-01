@@ -17,7 +17,8 @@ export const InnerContainer = styled.div`
   flex-flow: column nowrap;
   gap: 4rem;
   height: 100%;
-  margin: 5% 10%;
+  margin: 5% 0;
+  padding: 4% 2%;
   width: 100%;
 `;
 
