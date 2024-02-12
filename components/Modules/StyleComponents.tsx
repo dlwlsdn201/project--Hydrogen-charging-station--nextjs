@@ -22,12 +22,12 @@ export const InnerContainer = styled.div`
   width: 100%;
 `;
 
-export const FlexWrapper = styled.div`
+export const FlexWrapper = styled.div<{ fullHeight?: boolean }>`
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1rem;
-  height: 100%;
+  height: ${(props) => (props?.fullHeight ? '100%' : 'auto')};
 `;
 
 export const FlexCenterWrapper = styled.div<{ titleSize?: number }>`

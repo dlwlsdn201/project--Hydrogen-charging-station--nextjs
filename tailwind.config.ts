@@ -39,7 +39,7 @@ const config: Config = {
         dividerWeight: '1px', // h-divider the default height applied to the divider component
         fontSize: {
           tiny: '0.5rem', // text-tiny
-          small: '0.75rem', // text-small
+          small: '0.65rem', // text-small
           medium: '1rem', // text-medium
           large: '1.125rem', // text-large
         },

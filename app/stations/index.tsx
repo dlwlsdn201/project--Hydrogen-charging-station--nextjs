@@ -90,11 +90,11 @@ const Stations = ({ apiResponse }: IProps) => {
 
   return (
     <div key="1" className="flex flex-col h-full w-full">
-      <div className="grid grid-cols-5 gap-4 h-full">
-        <div className="col-span-3 relative">
+      <div className="flex flex-col gap-2 tablet-lg:grid tablet-lg:grid-cols-5 tablet-lg:gap-4 h-full">
+        <div className="h-[100%] flex-[0.4] tablet-lg:col-span-3 relative">
           <KakaoMap userLocation={userLocation} handleCenterLocation={handleCenterLocation} />
         </div>
-        <aside className="col-span-2 overflow-y-hidden">
+        <aside className="flex-[0.6] tablet-lg:col-span-2 overflow-y-hidden">
           <Search onSearch={handleSearch} />
           <Spacer y={4} />
           <TableHeader />

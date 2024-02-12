@@ -7,10 +7,10 @@ const Filter = (): ReactNode => {
   const { changeSearchType } = useStationsStore((state) => state);
 
   return (
-    <div className="mobile:w-[100%] flex flex-col">
+    <div className="mobile:w-[100%] laptop:flex-[0.3] flex flex-col ">
       <Tabs
-        classNames={{ tabList: 'mobile:w-[100%] w-[auto]' }}
-        className="h-[100%]"
+        classNames={{ tabList: 'mobile:w-[100%] w-[auto] h-[80%] tablet-lg:h-[100%]' }}
+        // className=" h-[80%] tablet-lg:h-[100%]"
         aria-label="Options"
         size="md"
         radius="sm"

@@ -139,34 +139,38 @@ const InfoModal = (): ReactNode => {
           },
         }}
       >
-        <ModalContent className="text-black">
+        <ModalContent className="text-black w-[90vw] h-[70vh] overflow-scroll">
           <ModalHeader className="flex flex-col gap-1 text-2xl">{data['충전소_명']}</ModalHeader>
           <ModalBody>
             <Table
               // isStriped
               hideHeader
               classNames={{
-                wrapper: 'max-h-[100%]',
-                td: 'h-[4em]',
+                wrapper: 'max-h-[100%] min-h-[100%]',
+                td: 'min-w-[6rem] break-keep',
+                table: 'h-[100%]',
               }}
             >
               <TableHeader>
                 <TableColumn>title</TableColumn>
                 <TableColumn>content</TableColumn>
               </TableHeader>
-              <TableBody>
+              <TableBody className="h-[100%]">
                 {tableItems.map((item: { title: string; content: string | ReactNode }, idx: number) => (
                   <TableRow key={idx}>
                     <TableCell
-                      width={'15%'}
+                      // width="20%"
                       className={`bg-slate-200 ${colBorderRadiusRangeTop === idx && 'rounded-t-lg'} ${
                         colBorderRadiusRangeBottom === idx && 'rounded-b-lg'
                       } ${colBorderRadiusRangeBottom !== idx && 'border-b-[0.2px] border-slate-100'}`}
                     >
-                      <strong className="text-medium">{item?.title}</strong>
+                      <strong className="text-small tablet-lg:text-medium">{item?.title}</strong>
                     </TableCell>
                     <TableCell
-                      className={`${colBorderRadiusRangeBottom !== idx && 'border-b-[0.2px] border-gray-100'}`}
+                      // width="80%"
+                      className={`${
+                        colBorderRadiusRangeBottom !== idx && 'border-b-[0.2px] border-gray-100'
+                      } text-small tablet-lg:text-medium`}
                     >
                       {item?.content}
                     </TableCell>

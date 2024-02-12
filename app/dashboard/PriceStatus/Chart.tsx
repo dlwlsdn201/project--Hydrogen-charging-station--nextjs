@@ -29,7 +29,7 @@ const ChartPriceStatus = (props: IProps) => {
   return (
     <div className=" flex mobile:w-[70%] tablet-sm:w-[100%] h-[50%] flex-[0.45] px-22 justify-center flex-col">
       <FlexCenterWrapper titleSize={titleSize}>{`${dateTitle} 평균 수소충전소 판매 가격 현황`}</FlexCenterWrapper>
-      <FlexWrapper>
+      <FlexWrapper fullHeight={true}>
         <ModuleBar data={chartData} />
         <Filter />
       </FlexWrapper>

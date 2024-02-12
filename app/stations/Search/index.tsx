@@ -42,10 +42,10 @@ const Search = (props: IProps): JSX.Element => {
   };
 
   return (
-    <FlexWrapper className="tablet-sm:!gap-[0.5rem] tablet-sm:!flex-wrap">
+    <FlexWrapper className=" mobile:!gap-[0.1rem] tablet-lg:!gap-[0.5rem] mobile:!flex-wrap laptop:!flex-nowrap">
       <Filter />
       <form className="relative w-[100%]" onSubmit={(e) => e.preventDefault()}>
-        <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+        <SearchIcon className="absolute left-2.5 top-1.5 tablet-lg:top-2.5 h-4 w-4 text-gray-500" />
         <div className="flex items-center gap-1 justify-between h-[100%] text-black">
           <Input
             searchType={searchType}
@@ -54,7 +54,7 @@ const Search = (props: IProps): JSX.Element => {
             handleEnterKey={handleEnterKey}
           />
           <Button
-            className="ml-2 px-3 py-1 rounded-xl"
+            className="ml-2 px-3 py-1 rounded-xl h-[100%]"
             color="primary"
             onClick={(_) => {
               onSearch(inputValue);
