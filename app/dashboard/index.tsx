@@ -6,6 +6,9 @@ import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { IPriceDataObj, IRegDataObj, TPriceChartDataKey, TRegChartDataKey } from '@app/types/dashboard/chart';
 import { Divider } from '@nextui-org/react';
 import Loading from './loading';
+import { formatPxToNumber } from '@app/components/Modules/Handlers';
+import config from '@app/tailwind.config';
+import { Config } from 'tailwindcss';
 
 const ChartRegStatus = lazy(() => import('./RegStatus/Chart'));
 const ChartPriceStatus = lazy(() => import('./PriceStatus/Chart'));
@@ -140,12 +143,32 @@ const Dashboard = ({ apiResponse }: IProps) => {
     changeRegStatus({ totalCount: apiResponse.reg.totalCount, data: apiResponse.reg.data });
   }, [apiResponse, changePriceStatus, changeRegStatus]);
 
+  // ======= [Responsive Title Size] =======
+  const {
+    theme: { screens },
+  }: Config | any = config;
+
+  const windowWidth = window?.innerWidth;
+  let titleSize: number;
+  const breakPoints = {
+    mobile: formatPxToNumber(screens['tablet-sm']),
+    tablet: formatPxToNumber(screens['laptop']),
+    laptop: formatPxToNumber(screens['desktop']),
+  };
+  if (windowWidth < breakPoints.mobile) {
+    titleSize = 14;
+  } else if (windowWidth < breakPoints.tablet) {
+    titleSize = 18;
+  } else {
+    titleSize = 24;
+  }
+
   return (
-    <div className="flex flex-col justify-center items-center w-[80vw] h-[100%]">
+    <div className="flex flex-col justify-around items-center tablet-sm:w-[80vw] mobile:w-[90vw] mobile:h-[70vh] tablet-sm:h-[100vh] mobile:my-[3%] tablet-sm:my-[5%]">
       <Suspense fallback={<Loading />}>
-        <ChartRegStatus chartData={chartData?.reg} />
-        <Divider className="my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
-        <ChartPriceStatus chartData={chartData?.price} />
+        <ChartRegStatus titleSize={titleSize} chartData={chartData?.reg} />
+        <Divider className="mobile:my-[0.1rem] tablet-sm:my-2 mx-12 w-[50%]" style={{ border: '1px solid grey' }} />
+        <ChartPriceStatus titleSize={titleSize} chartData={chartData?.price} />
       </Suspense>
     </div>
   );

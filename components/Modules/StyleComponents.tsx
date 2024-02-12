@@ -8,6 +8,7 @@ export const RootContainer = styled.div`
   justify-content: center;
   flex-flow: column nowrap;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const InnerContainer = styled.div`
@@ -17,7 +18,6 @@ export const InnerContainer = styled.div`
   flex-flow: column nowrap;
   gap: 4rem;
   height: 100%;
-  margin: 5% 0;
   padding: 4% 2%;
   width: 100%;
 `;
@@ -27,10 +27,12 @@ export const FlexWrapper = styled.div`
   justify-content: center;
   flex-wrap: nowrap;
   gap: 1rem;
+  height: 100%;
 `;
 
-export const FlexCenterWrapper = styled.div`
+export const FlexCenterWrapper = styled.div<{ titleSize?: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: ${(props): any => `${props?.titleSize}px` ?? 'inherit'};
 `;

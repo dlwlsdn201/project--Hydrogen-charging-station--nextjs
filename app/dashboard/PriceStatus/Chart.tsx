@@ -3,13 +3,15 @@ import React, { useEffect, useState } from 'react';
 import Filter from './Filter';
 import { useDashboardStore } from '@app/store/dashboard';
 import dayjs from 'dayjs';
+import { FlexCenterWrapper, FlexWrapper } from '@app/components/Modules/StyleComponents';
 
 interface IProps {
   chartData: any;
+  titleSize: number;
 }
 
 const ChartPriceStatus = (props: IProps) => {
-  const { chartData } = props;
+  const { chartData, titleSize } = props;
   const {
     priceStatus: { datePicker },
   } = useDashboardStore((state) => state);
@@ -25,9 +27,12 @@ const ChartPriceStatus = (props: IProps) => {
   }, [datePicker, dateTitle]);
 
   return (
-    <div className=" flex w-[100%] h-[50%] flex-[0.45] px-22 justify-center">
-      <ModuleBar title={`${dateTitle} 평균 수소충전소 판매 가격 현황`} data={chartData} />
-      <Filter />
+    <div className=" flex mobile:w-[70%] tablet-sm:w-[100%] h-[50%] flex-[0.45] px-22 justify-center flex-col">
+      <FlexCenterWrapper titleSize={titleSize}>{`${dateTitle} 평균 수소충전소 판매 가격 현황`}</FlexCenterWrapper>
+      <FlexWrapper>
+        <ModuleBar data={chartData} />
+        <Filter />
+      </FlexWrapper>
     </div>
   );
 };
