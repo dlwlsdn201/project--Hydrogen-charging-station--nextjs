@@ -148,19 +148,21 @@ const Dashboard = ({ apiResponse }: IProps) => {
     theme: { screens },
   }: Config | any = config;
 
-  const windowWidth = window?.innerWidth;
-  let titleSize: number;
-  const breakPoints = {
-    mobile: formatPxToNumber(screens['tablet-sm']),
-    tablet: formatPxToNumber(screens['laptop']),
-    laptop: formatPxToNumber(screens['desktop']),
-  };
-  if (windowWidth < breakPoints.mobile) {
-    titleSize = 14;
-  } else if (windowWidth < breakPoints.tablet) {
-    titleSize = 18;
-  } else {
-    titleSize = 24;
+  let titleSize: number = 24;
+  if (typeof window !== 'undefined') {
+    const windowWidth = window?.innerWidth;
+    const breakPoints = {
+      mobile: formatPxToNumber(screens['tablet-sm']),
+      tablet: formatPxToNumber(screens['laptop']),
+      laptop: formatPxToNumber(screens['desktop']),
+    };
+    if (windowWidth < breakPoints.mobile) {
+      titleSize = 14;
+    } else if (windowWidth < breakPoints.tablet) {
+      titleSize = 18;
+    } else {
+      titleSize = 24;
+    }
   }
 
   return (
