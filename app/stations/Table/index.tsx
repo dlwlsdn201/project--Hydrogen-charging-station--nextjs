@@ -16,7 +16,7 @@ const TableList = ({ handleCenterLocation }: IProps): ReactNode => {
   const commonStyles = 'py-2 tablet-lg:py-4 px-4 tablet-sm:px-[0.3rem] flex items-center border-b border-grey-light';
 
   return (
-    <table className="w-full text-left border-collapse mobile:text-small tablet-lg:text-small">
+    <table className="w-full text-left border-collapse mobile:text-small tablet-lg:text-medium">
       <tbody>
         {stationsList.map((item: IStationData, idx: number) => (
           <tr
